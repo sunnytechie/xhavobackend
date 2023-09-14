@@ -23,6 +23,12 @@ class User extends Authenticatable
         'password',
     ];
 
+    //belongs to category
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
