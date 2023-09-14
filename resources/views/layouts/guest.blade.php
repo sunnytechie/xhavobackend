@@ -5,11 +5,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta property="og:url" content="{{ url()->current() }}" />
-  
+
     <meta property="og:type" content="Place where customers meets all kinds of service providers." />
     <meta property="og:title" content="{{ config('app.name') }}" />
     <meta property="og:description" content="Place where customers meets all kinds of service providers." />
-    <meta property="og:image" content="{{ asset('assets/images/logos/xhavo_favicon.png') }}" />
+    <meta property="og:image" content="{{ asset('assets/images/logos/xhavo.png') }}" />
     <meta property="og:image:width" content="200" />
     <meta property="og:image:height" content="200" />
     <meta property="og:image:type" content="image/png" />
