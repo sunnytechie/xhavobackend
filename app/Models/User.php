@@ -21,12 +21,45 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'state',
+        'city',
+        'category_id',
+        'user_type',
     ];
 
     //belongs to category
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    //one to one relationship with merchant
+    public function merchant()
+    {
+        return $this->hasOne(Merchant::class);
+    }
+
+    //has many relationship with review
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    //has many relationship with booking
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
+    //has many relationship with notification
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+    //has many relationship with report
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
     }
 
     /**
