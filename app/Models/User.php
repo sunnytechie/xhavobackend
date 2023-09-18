@@ -25,7 +25,16 @@ class User extends Authenticatable
         'city',
         'category_id',
         'user_type',
+        'identity',
+        'identity_image',
+        'identity_number',
     ];
+
+    //has many relationship with interest
+    public function interests()
+    {
+        return $this->hasMany(Interest::class);
+    }
 
     //belongs to category
     public function category()

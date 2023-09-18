@@ -16,4 +16,10 @@ class Category extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    //belongs to interest
+    public function interest()
+    {
+        return $this->belongsTo(Interest::class);
+    }
 }

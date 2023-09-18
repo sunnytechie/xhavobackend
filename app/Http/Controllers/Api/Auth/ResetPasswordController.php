@@ -89,4 +89,45 @@ class ResetPasswordController extends Controller
             'message' => 'Password reset successfully.',
         ]);
     }
+
+    //change password
+    public function changePassword(Request $request, $user_id) {
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required',
+            'password' => 'required|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors()->first(),
+            ], 422);
+        }
+
+        $user = User::find($user_id);
+
+        //make sure user exists
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User does not exist.',
+            ], 401);
+        }
+
+        //make sure old password is correct
+        if (!password_verify($request->old_password, $user->password)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Old password is incorrect.',
+            ], 401);
+        }
+
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Password changed successfully.',
+        ]);
+    }
 }

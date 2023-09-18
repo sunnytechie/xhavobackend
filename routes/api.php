@@ -64,6 +64,22 @@ Route::get('/filter', [App\Http\Controllers\Api\Search\SearchController::class, 
 
 //account update
 Route::post('/account/{user_id}', [App\Http\Controllers\Api\User\AccountController::class, 'update']);
+
+//change password
+Route::post('/change-password/{user_id}', [App\Http\Controllers\Api\Auth\ResetPasswordController::class, 'changePassword']);
+
+//update identity
+Route::post('/identity/{user_id}', [App\Http\Controllers\Api\User\AccountController::class, 'updateIdentity']);
+
+//save interest
+Route::post('/interest/{user_id}', [App\Http\Controllers\Api\Interest\InterestController::class, 'store']);
+
+//delete user
+Route::delete('/destroy/user/{user_id}', [App\Http\Controllers\Api\User\AccountController::class, 'destroy']);
+
+//support
+Route::post('/support', [App\Http\Controllers\Api\User\AccountController::class, 'support']);
+
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

@@ -49,7 +49,7 @@
     <div class="email-container">
         <a href="https://xhavo.app" style="text-decoration: none; margin-bottom: 20px">
             <div class="email-header" style="color: #FFCB05; font-weight: 700; font-size: 25px; padding: 25px 0;">
-                Xhavo.App
+                Xhavo
             </div>
         </a>
 
@@ -68,14 +68,14 @@
 
         <div style="margin-top: 15px"></div>
         <p>Sincerely,</p>
-        <p>xhavo.app</p>
+        <p>xhavo team</p>
     </div>
 
     <div style="max-width: 500px; margin: 30px auto; background-color: transparent;">
         <div style="border-top: 1px solid #999; margin-top: 20px; margin-bottom: 5px"></div>
-        <p style="margin-top: 20px; color: #999999; font-size: 12px;">&copy; {{ date('Y') }} xhavo.app, All rights reserved.</p>
+        <p style="margin-top: 20px; color: #999999; font-size: 12px; padding: 0 10px 8px; 15px">&copy; {{ date('Y') }} xhavo.app, All rights reserved.</p>
         {{-- <p style="color: #999999; font-size: 12px;">Office address</p> --}}
-        <div style="color: #999999">
+        <div style="color: #999999; padding: 0 10px 20px; 15px">
             <a style="margin-right: 5px; text-decoration: none; color: #999999; font-size: 12px;" href="#">About us</a>
             <a style="margin-right: 5px; text-decoration: none; color: #999999; font-size: 12px;" href="#">Privacy Policy</a>
             <a style="margin-right: 5px; text-decoration: none; color: #999999; font-size: 12px;" href="#">Terms and Conditions</a>
