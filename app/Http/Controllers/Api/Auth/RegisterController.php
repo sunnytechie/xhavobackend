@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Models\User;
 use App\Mail\OtpMail;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
@@ -26,23 +27,31 @@ class RegisterController extends Controller
             ], 422);
         }
 
-        $customer = new User();
-        ////$customer->phone = $request->phone;
-        $customer->email = $request->email;
-        $customer->password = bcrypt($request->password);
-        $customer->save();
+        $user = new User();
+        ////$user->phone = $request->phone;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save();
 
         $otp = rand(1000, 9999);
         //store otp in database
-        $customer->otp = $otp;
-        $customer->save();
+        $user->otp = $otp;
+        $user->save();
 
         //send otp via email
-        Mail::to($customer->email)->send(new OtpMail($otp));
+        Mail::to($user->email)->send(new OtpMail($otp));
+
+        //new customer
+        $customer = new Customer();
+        $customer->user_id = $user->id;
+        $customer->save();
+
+        //get user data with customer data
+        $user = User::with('customer')->find($user->id);
 
         return response()->json([
             'status' => 'success',
-            'user_id' => $customer->id,
+            'user' => $user,
             'message' => 'Please verify your email.',
         ]);
     }
@@ -62,16 +71,18 @@ class RegisterController extends Controller
             ], 422);
         }
 
-        $customer = User::find($user_id);
-        $customer->state = $request->state;
-        $customer->city = $request->city;
-        $customer->category_id = $request->category;
-        $customer->save();
+        $user = User::find($user_id);
+        $user->state = $request->state;
+        $user->city = $request->city;
+        $user->category_id = $request->category;
+        $user->save();
+
+        $user = User::with('customer')->find($user->id);
 
         return response()->json([
             'status' => 'success',
-            'user_id' => $customer->id,
-            'message' => 'Customer info updated successfully',
+            'user' => $user,
+            'message' => 'User info updated successfully',
         ]);
     }
 }

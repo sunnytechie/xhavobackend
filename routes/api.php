@@ -31,7 +31,7 @@ Route::post('/auth/reset-password', [App\Http\Controllers\Api\Auth\ResetPassword
 //Category routes
 Route::get('/categories', [App\Http\Controllers\Api\Category\CategoryController::class, 'index']);
 
-//middleware for bearer token
+//middleware bearer token
 Route::middleware('bearer')->group(function () {
 //Merchants
 Route::get('/merchants', [App\Http\Controllers\Api\User\MerchantController::class, 'index']);
@@ -57,6 +57,13 @@ Route::get('/notifications/{user_id}', [App\Http\Controllers\Api\Notification\No
 
 //report
 Route::post('/report', [App\Http\Controllers\Api\Report\ReportController::class, 'store']);
+
+//search
+Route::get('/search', [App\Http\Controllers\Api\Search\SearchController::class, 'search']);
+Route::get('/filter', [App\Http\Controllers\Api\Search\SearchController::class, 'filter']);
+
+//account update
+Route::post('/account/{user_id}', [App\Http\Controllers\Api\User\AccountController::class, 'update']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

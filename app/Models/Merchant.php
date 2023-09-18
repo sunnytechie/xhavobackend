@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Merchant extends Model
 {
+    use Searchable;
+
     protected $table = 'merchants';
     use HasFactory;
 
@@ -38,5 +41,21 @@ class Merchant extends Model
     public function reports()
     {
         return $this->hasMany(Report::class);
+    }
+
+    public function toSearchableArray() : array
+    {
+        $array = $this->toArray();
+
+        // Customize array...
+        unset($array['created_at, updated_at']);
+
+        return [
+            'brand_name' => $array['brand_name'],
+            'description' => $array['description'],
+            'state' => $array['state'],
+            'location' => $array['location'],
+            //'category' => $array['category'],
+        ];
     }
 }

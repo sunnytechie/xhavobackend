@@ -62,6 +62,12 @@ class User extends Authenticatable
         return $this->hasMany(Report::class);
     }
 
+    //has one relationship with customer
+    public function customer()
+    {
+        return $this->hasOne(Customer::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
