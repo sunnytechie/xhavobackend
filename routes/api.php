@@ -78,7 +78,7 @@ Route::post('/interest/{user_id}', [App\Http\Controllers\Api\Interest\InterestCo
 Route::delete('/destroy/user/{user_id}', [App\Http\Controllers\Api\User\AccountController::class, 'destroy']);
 
 //support
-Route::post('/support', [App\Http\Controllers\Api\User\AccountController::class, 'support']);
+Route::post('/support/{user_id}', [App\Http\Controllers\Api\User\AccountController::class, 'support']);
 
 });
 
