@@ -20,6 +20,9 @@ Route::post('/auth/login', [App\Http\Controllers\Api\Auth\LoginController::class
 Route::post('/auth/register-customer', [App\Http\Controllers\Api\Auth\RegisterController::class, 'customerRegister']);
 Route::post('/auth/customer-info/{user_id}', [App\Http\Controllers\Api\Auth\RegisterController::class, 'customerInfo']);
 
+//Register merchant
+Route::post('/auth/register-merchant', [App\Http\Controllers\Api\Auth\RegisterController::class, 'merchantRegister']);
+
 // Otp routes
 Route::post('/auth/send-otp', [App\Http\Controllers\Api\Auth\OtpController::class, 'sendOtp']);
 Route::post('/auth/verify-otp', [App\Http\Controllers\Api\Auth\OtpController::class, 'verifyOtp']);
@@ -59,8 +62,8 @@ Route::get('/notifications/{user_id}', [App\Http\Controllers\Api\Notification\No
 Route::post('/report', [App\Http\Controllers\Api\Report\ReportController::class, 'store']);
 
 //search
-Route::get('/search', [App\Http\Controllers\Api\Search\SearchController::class, 'search']);
-Route::get('/filter', [App\Http\Controllers\Api\Search\SearchController::class, 'filter']);
+Route::post('/search', [App\Http\Controllers\Api\Search\SearchController::class, 'search']);
+Route::post('/filter', [App\Http\Controllers\Api\Search\SearchController::class, 'filter']);
 
 //account update
 Route::post('/account/{user_id}', [App\Http\Controllers\Api\User\AccountController::class, 'update']);
@@ -79,6 +82,23 @@ Route::delete('/destroy/user/{user_id}', [App\Http\Controllers\Api\User\AccountC
 
 //support
 Route::post('/support/{user_id}', [App\Http\Controllers\Api\User\AccountController::class, 'support']);
+
+//merchant registeration
+Route::post('/register/merchant/{user_id}', [App\Http\Controllers\Api\Auth\MerchantRegisterationController::class, 'register']);
+
+//store thumbnail
+Route::post('/thumbnail/{user_id}', [App\Http\Controllers\Api\User\ThumbnailController::class, 'store']);
+//update thumbnail
+Route::post('/thumbnail/{user_id}/{thumbnail_id}', [App\Http\Controllers\Api\User\ThumbnailController::class, 'update']);
+
+//store work schedule time
+Route::post('/schedule/{user_id}', [App\Http\Controllers\Api\User\ScheduleController::class, 'store']);
+//update work schedule time
+Route::post('/schedule/{user_id}/{schedule_id}', [App\Http\Controllers\Api\User\ScheduleController::class, 'update']);
+
+//update merchant info
+Route::post('/merchant-info/{user_id}', [App\Http\Controllers\Api\User\AccountController::class, 'updateMerchant']);
+
 
 });
 

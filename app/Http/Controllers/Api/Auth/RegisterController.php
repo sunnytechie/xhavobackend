@@ -56,6 +56,42 @@ class RegisterController extends Controller
         ]);
     }
 
+    //merchant register api
+    public function merchantRegister(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|unique:users',
+            'password' => 'required|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors()->first(),
+            ], 422);
+        }
+
+        $user = new User();
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->user_type = 'merchant';
+        $user->save();
+
+        $otp = rand(1000, 9999);
+        //store otp in database
+        $user->otp = $otp;
+        $user->save();
+
+        //send otp via email
+        Mail::to($user->email)->send(new OtpMail($otp));
+
+        //return user data
+        return response()->json([
+            'status' => 'success',
+            'user' => $user,
+            'message' => 'Please verify your email.',
+        ]);
+    }
+
     //customer state, city and category selection api
     public function customerInfo(Request $request, $user_id) {
         $validator = Validator::make($request->all(), [
@@ -85,4 +121,6 @@ class RegisterController extends Controller
             'message' => 'User info updated successfully',
         ]);
     }
+
+
 }

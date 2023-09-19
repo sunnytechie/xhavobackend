@@ -43,9 +43,18 @@ class LoginController extends Controller
             ], 401);
         }
 
+        //if user user_type is customer get user with customer
+        if ($user->user_type == 'customer') {
+            $user = User::with('customer')->find($user->id);
+        }
+        //if user_type is merchant get user with merchant
+        if ($user->user_type == 'merchant') {
+            $user = User::with('merchant')->find($user->id);
+        }
+
         return response()->json([
             'status' => 'success',
-            'user_id' => $user->id,
+            'user' => $user,
             'token' => $token,
         ]);
     }

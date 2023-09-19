@@ -12,7 +12,7 @@ class BookingController extends Controller
     public function index($user_id)
     {
 
-        $bookings = Booking::where('user_id', $user_id)->get();
+        $bookings = Booking::where('user_id', $user_id)->with('user')->get();
 
         return response()->json([
             'status' => 200,
@@ -56,6 +56,22 @@ class BookingController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'User completed bookings',
+            'data' => $bookings,
+        ]);
+    }
+
+    //get all current user accepted bookings
+    public function acceptedBookings(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required',
+        ]);
+
+        $bookings = Booking::where('user_id', $request->user_id)->where('booking_status', 'accepted')->get();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Accepted bookings',
             'data' => $bookings,
         ]);
     }
@@ -147,19 +163,5 @@ class BookingController extends Controller
         ]);
     }
 
-    //get all current user accepted bookings
-    public function acceptedBookings(Request $request)
-    {
-        $request->validate([
-            'user_id' => 'required',
-        ]);
 
-        $bookings = Booking::where('user_id', $request->user_id)->where('booking_status', 'accepted')->get();
-
-        return response()->json([
-            'status' => 200,
-            'message' => 'Accepted bookings',
-            'data' => $bookings,
-        ]);
-    }
 }

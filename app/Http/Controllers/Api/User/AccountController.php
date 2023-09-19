@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\Merchant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class AccountController extends Controller
 {
@@ -61,6 +62,54 @@ class AccountController extends Controller
             'status' => 'success',
             'user' => $user,
             'message' => 'Account updated successfully',
+        ], 200);
+    }
+
+    //update merchant profile
+    public function updateMerchant(Request $request, $user_id) {
+        //validate data
+        $validator = Validator::make($request->all(), [
+            'brand_name' => 'required',
+            'category_id' => 'required',
+            'logo' => 'required',
+            'description' => 'required',
+            'location' => 'required',
+            'whatsapp' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors()->first(),
+            ], 422);
+        }
+
+        //save image in storage
+        if ($request->hasFile('logo')) {
+            $image = $request->file('logo');
+            $image_name = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/merchant'), $image_name);
+        } else {
+            $image_name = null;
+        }
+
+        //find merchant with user id
+        $merchant = Merchant::where('user_id', $user_id)->first();
+        $merchant->brand_name = $request->brand_name;
+        $merchant->category_id = $request->category_id;
+        $merchant->logo = $image_name;
+        $merchant->description = $request->description;
+        $merchant->location = $request->location;
+        $merchant->whatsapp = $request->whatsapp;
+        $merchant->save();
+
+        //find user with merchant with user id
+        $user = User::with('merchant')->find($user_id);
+
+        return response()->json([
+            'status' => 'success',
+            'user' => $user,
+            'message' => 'Merchant profile updated successfully',
         ], 200);
     }
 

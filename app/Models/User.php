@@ -36,6 +36,18 @@ class User extends Authenticatable
         return $this->hasMany(Interest::class);
     }
 
+    //has many relationship with workschedule
+    public function workschedules()
+    {
+        return $this->hasMany(Workschedule::class);
+    }
+
+    //has many relationship with thumbnail
+    public function thumbnails()
+    {
+        return $this->hasMany(Thumbnail::class);
+    }
+
     //belongs to category
     public function category()
     {

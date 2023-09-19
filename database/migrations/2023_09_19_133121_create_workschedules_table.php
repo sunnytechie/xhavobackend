@@ -11,16 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('merchants', function (Blueprint $table) {
+        Schema::create('workschedules', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->nullable();
-            $table->integer('category_id')->nullable();
-            $table->string('brand_name')->nullable();
-            $table->string('logo')->nullable();
-            $table->string('description')->nullable();
-            $table->string('location')->nullable();
-            $table->string('phone')->nullable();
-            $table->integer('verified')->default(0);
+            $table->string('day')->comment('Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday');
+            $table->string('start_time')->comment('24 hours format');
+            $table->string('end_time')->comment('24 hours format');
+            $table->string('status')->default('Open');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('merchants');
+        Schema::dropIfExists('workschedules');
     }
 };

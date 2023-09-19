@@ -25,6 +25,12 @@ class Merchant extends Model
         return $this->hasMany(Review::class);
     }
 
+    //has many relationship with thumbnail
+    public function thumbnails()
+    {
+        return $this->hasMany(Thumbnail::class);
+    }
+
     //has many relationship with booking
     public function bookings()
     {

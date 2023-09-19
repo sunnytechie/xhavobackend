@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Http\Controllers\Api\Auth;
+
+use App\Models\User;
+use App\Models\Merchant;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+
+class MerchantRegisterationController extends Controller
+{
+    //register api
+    public function register(Request $request, $user_id) {
+        //validate data
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'gender' => 'required',
+            'phone' => 'required',
+            'birthday' => '',
+            'whatsapp' => '',
+            'brand_name' => 'required',
+            'category_id' => 'required',
+            //'logo' => 'required',
+            'description' => 'required',
+            'location' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors()->first(),
+            ], 422);
+        }
+
+        $merchant = new Merchant();
+        $merchant->user_id = $user_id;
+        $merchant->name = $request->name;
+        $merchant->gender = $request->gender;
+        $merchant->phone = $request->phone;
+        $merchant->birthday = $request->birthday;
+        $merchant->whatsapp = $request->whatsapp;
+        $merchant->brand_name = $request->brand_name;
+        $merchant->category_id = $request->category_id;
+        $merchant->logo = "https://xhavo.app/assets/images/profile/user-default.png";
+        $merchant->description = $request->description;
+        $merchant->location = $request->location;
+        $merchant->save();
+
+        //find user with merchant via user id
+        $user = User::with('merchant')->find($user_id);
+
+        return response()->json([
+            'status' => 'success',
+            'user' => $user,
+            'message' => 'Merchant registered successfully.',
+        ]);
+    }
+}
