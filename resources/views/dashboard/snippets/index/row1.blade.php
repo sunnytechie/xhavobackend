@@ -26,10 +26,10 @@
           <!-- Yearly Breakup -->
           <div class="card overflow-hidden">
             <div class="card-body p-4">
-              <h5 class="card-title mb-9 fw-semibold">Yearly Breakup</h5>
+              <h5 class="card-title mb-9 fw-semibold">Yearly Signups</h5>
               <div class="row align-items-center">
                 <div class="col-8">
-                  <h4 class="fw-semibold mb-3">$36,358</h4>
+                  <h4 class="fw-semibold mb-3">36,358</h4>
                   <div class="d-flex align-items-center mb-3">
                     <span
                       class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
@@ -65,22 +65,22 @@
             <div class="card-body">
               <div class="row alig n-items-start">
                 <div class="col-8">
-                  <h5 class="card-title mb-9 fw-semibold"> Monthly Earnings </h5>
-                  <h4 class="fw-semibold mb-3">$6,820</h4>
+                  <h5 class="card-title mb-9 fw-semibold"> Monthly Sign Ups </h5>
+                  <h4 class="fw-semibold mb-3">6,820</h4>
                   <div class="d-flex align-items-center pb-1">
                     <span
                       class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
                       <i class="ti ti-arrow-down-right text-danger"></i>
                     </span>
                     <p class="text-dark me-1 fs-3 mb-0">+9%</p>
-                    <p class="fs-3 mb-0">last year</p>
+                    <p class="fs-3 mb-0">last month</p>
                   </div>
                 </div>
                 <div class="col-4">
                   <div class="d-flex justify-content-end">
                     <div
                       class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
-                      <i class="ti ti-currency-dollar fs-6"></i>
+                      <i class="ti ti-users fs-6"></i>
                     </div>
                   </div>
                 </div>

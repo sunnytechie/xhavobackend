@@ -25,11 +25,28 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        //validate the request
+        $validate = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
-        $request->session()->regenerate();
+        //attempt to authenticate the user
+        if (Auth::attempt($validate)) {
+            $request->session()->regenerate();
+            return redirect()->intended(RouteServiceProvider::HOME);
+        }
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return back()->with('status', "Authentication failed.")->withInput($request->only('email'));
+
+        //return redirect()->intended(RouteServiceProvider::HOME);
+        //if ($request->authenticate()) {
+        //    $request->session()->regenerate();
+        //    return redirect()->intended(RouteServiceProvider::HOME);
+        //}
+
+        // Authentication failed, return a response with an error status
+        //return redirect()->back()->withInput()->with(['status', 'Authentication failed.']);
     }
 
     /**

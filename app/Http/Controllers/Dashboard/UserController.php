@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Customer;
+use App\Models\Merchant;
 
 class UserController extends Controller
 {
-    public function provider()
+    public function merchant()
     {
-        return view('dashboard.users.providers');
+        $merchants = Merchant::all();
+        return view('dashboard.users.merchants', compact('merchants'));
     }
 
     public function customer()
     {
-        return view('dashboard.users.customers');
+        $customers = Customer::all();
+        return view('dashboard.users.customers', compact('customers'));
     }
 }

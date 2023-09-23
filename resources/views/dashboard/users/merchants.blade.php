@@ -37,22 +37,22 @@
                             <h6 class="fw-semibold mb-0">S/N</h6>
                         </th>
                         <th>
-                            <h6 class="fw-semibold mb-0">Customer</h6>
+                            <h6 class="fw-semibold mb-0">Logo</h6>
                         </th>
                         <th>
-                            <h6 class="fw-semibold mb-0">Merchant</h6>
+                            <h6 class="fw-semibold mb-0">Name</h6>
                         </th>
                         <th>
-                            <h6 class="fw-semibold mb-0">Booking Date/Time</h6>
+                            <h6 class="fw-semibold mb-0">Brand</h6>
                         </th>
                         <th>
-                            <h6 class="fw-semibold mb-0">Booking Status</h6>
+                            <h6 class="fw-semibold mb-0">Email</h6>
                         </th>
                         <th>
-                            <h6 class="fw-semibold mb-0">Method of Identity</h6>
+                            <h6 class="fw-semibold mb-0">Phone</h6>
                         </th>
                         <th>
-                            <h6 class="fw-semibold mb-0">Identity Number</h6>
+                            <h6 class="fw-semibold mb-0">Action</h6>
                         </th>
                         </tr>
                     </thead>
@@ -61,27 +61,33 @@
                         @php
                             $id = 1;
                         @endphp
-                        @foreach ($bookings as $booking)
+                        @foreach ($merchants as $merchant)
                             <tr>
                             <td class="border-bottom-0"><h6 class="fw-semibold mb-0">{{ $id++ }}</h6></td>
+                            <td class="border-bottom-0">
+                                <img src="{{ asset('images/profile/'.$merchant->logo) }}" alt="logo" class="thumbnail">
+                            </td>
+                            <td class="border-bottom-0">
+                                <h6 class="fw-semibold mb-1">{{ $merchant->user->name }}</h6>
+                            </td>
+                            <td class="border-bottom-0">
+                                <p class="mb-0 fw-semibold">{{ $merchant->brand_name }}</p>
+                            </td>
+                            <td class="border-bottom-0">
+                                <p class="mb-0 fw-semibold">{{ $merchant->user->email }}</p>
+                            </td>
+                            <td class="border-bottom-0">
+                                <p class="mb-0 fw-semibold">{{ $merchant->user->phone }}</p>
+                            </td>
+                            <td class="border-bottom-0">
+                                <div class="d-flex">
 
-                            <td class="border-bottom-0">
-                                <h6 class="fw-semibold mb-1">{{ $booking->user->email }}</h6>
-                            </td>
-                            <td class="border-bottom-0">
-                                <p class="mb-0 fw-semibold">{{ $booking->merchant->email }}</p>
-                            </td>
-                            <td class="border-bottom-0">
-                                <p class="mb-0 fw-semibold">{{ $booking->booking_date->format('d M Y') }}, Time: {{ $booking->booking_time }}</p>
-                            </td>
-                            <td class="border-bottom-0">
-                                <p class="mb-0 fw-semibold">{{ $booking->booking_status }}</p>
-                            </td>
-                            <td class="border-bottom-0">
-                                <p class="mb-0 fw-semibold">{{ $booking->method_of_identity }}</p>
-                            </td>
-                            <td class="border-bottom-0">
-                                <p class="mb-0 fw-semibold">{{ $booking->identity_number }}</p>
+                                <form class="m-0 p-0" method="POST" action="#">
+                                        @csrf
+                                    <button class="btn btn-danger rounded-0 btn-sm px-3" onclick="return confirm('Are you sure you want to block this user?')">Block User</button>
+                                </form>
+
+                                </div>
                             </td>
 
                             </tr>
@@ -96,5 +102,4 @@
 
     </div>
 @endsection
-
 

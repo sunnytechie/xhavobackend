@@ -24,6 +24,19 @@
   <title>Xhavo.app Administrator</title>
   <link rel="shortcut icon" type="image/png" href="{{ asset("assets/images/logos/xhavo_favicon.png") }}" />
   <link rel="stylesheet" href="{{ asset("assets/css/styles.min.css") }}" />
+
+  {{-- Dropify cdn --}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
+
+  <!-- DataTables CSS (CDN) -->
+  <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
+
+  <style>
+    #xhavoTable_filter {
+      margin-bottom: 15px;
+    }
+  </style>
+
 </head>
 
 <body>
@@ -47,6 +60,9 @@
 
       <div class="container-fluid">
 
+        {{-- alert --}}
+        @include('dashboard.snippets.app.alert')
+
         <!--  Content Start -->
             @yield('content')
         <!--  Content End -->
@@ -67,6 +83,26 @@
   <script src="{{ asset("assets/libs/apexcharts/dist/apexcharts.min.js") }}"></script>
   <script src="{{ asset("assets/libs/simplebar/dist/simplebar.js") }}"></script>
   <script src="{{ asset("assets/js/dashboard.js") }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+
+  <!-- jQuery (CDN) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- DataTables JavaScript (CDN) -->
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.dropify').dropify();
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#xhavoTable').DataTable();
+    });
+</script>
+
 </body>
 
 </html>
