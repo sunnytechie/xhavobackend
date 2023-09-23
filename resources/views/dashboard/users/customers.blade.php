@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-<title>Xhavo Category list</title>
+<title>Xhavo customers and clients</title>
 <style>
     .thumbnail {
         width: 20px;
