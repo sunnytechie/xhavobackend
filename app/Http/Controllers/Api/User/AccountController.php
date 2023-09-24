@@ -23,11 +23,6 @@ class AccountController extends Controller
             'phone' => 'required|string',
             'gender' => 'required|string',
             'birthday' => 'required|string',
-            //'address' => 'required|string',
-            //'city' => 'required|string',
-            //'state' => 'required|string',
-            //'country' => 'required|string',
-            //'zip' => 'required|string',
         ]);
 
         //save image in storage
@@ -39,19 +34,19 @@ class AccountController extends Controller
             $image_name = "https://xhavo.app/assets/images/profile/user-default.png";
         }
 
+        //find user with user id
+        $user = User::find($user_id);
+        $user->name = $request->name;
+        //$user->email = $request->email;
+        $user->save();
+
         //find customer with user id
         $customer = Customer::where('user_id', $user_id)->first();
         $customer->image = $image_name;
         $customer->name = $request->name;
-        //$customer->email = $request->email;
         $customer->phone = $request->phone;
         $customer->gender = $request->gender;
         $customer->birthday = $request->birthday;
-        //$customer->address = $request->address;
-        //$customer->city = $request->city;
-        //$customer->state = $request->state;
-        //$customer->country = $request->country;
-        //$customer->zip = $request->zip;
         $customer->save();
 
         //find user with customer with user id
@@ -63,6 +58,50 @@ class AccountController extends Controller
             'user' => $user,
             'message' => 'Account updated successfully',
         ], 200);
+    }
+
+    //update merchant user account
+    public function updateMerchantUser(Request $request, $user_id)
+    {
+        //validate request
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            //'email' => 'required|string',
+            'phone' => 'required|string',
+            'gender' => 'required|string',
+            'birthday' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors()->first(),
+            ], 422);
+        }
+
+        //find customer with user id
+        $user = User::find($user_id);
+        $user->name = $request->name;
+        //$user->email = $request->email;
+        $user->save();
+
+        //find merchant with user id
+        $merchant = Merchant::where('user_id', $user_id)->first();
+        $merchant->name = $request->name;
+        $merchant->phone = $request->phone;
+        $merchant->gender = $request->gender;
+        $merchant->birthday = $request->birthday;
+        $merchant->save();
+
+        //return user with merchant
+        $user = User::with('merchant')->find($user_id);
+        //return user
+        return response()->json([
+            'status' => 'success',
+            'user' => $user,
+            'message' => 'Account updated successfully',
+        ], 200);
+
     }
 
     //update merchant profile

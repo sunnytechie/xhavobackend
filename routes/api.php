@@ -68,6 +68,9 @@ Route::post('/filter', [App\Http\Controllers\Api\Search\SearchController::class,
 //account update
 Route::post('/account/{user_id}', [App\Http\Controllers\Api\User\AccountController::class, 'update']);
 
+//merchant account update
+Route::post('/merchant-account/{user_id}', [App\Http\Controllers\Api\User\AccountController::class, 'updateMerchantUser']);
+
 //change password
 Route::post('/change-password/{user_id}', [App\Http\Controllers\Api\Auth\ResetPasswordController::class, 'changePassword']);
 
