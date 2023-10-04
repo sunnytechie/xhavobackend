@@ -39,6 +39,9 @@ Route::middleware('bearer')->group(function () {
 //Merchants
 Route::get('/merchants', [App\Http\Controllers\Api\User\MerchantController::class, 'index']);
 
+//Merchant by category
+Route::get('/merchants/category/{category_id}', [App\Http\Controllers\Api\Category\CategoryController::class, 'merchantByCategory']);
+
 //Reviews
 Route::get('/reviews/{user_id}', [App\Http\Controllers\Api\Review\ReviewController::class, 'index']);
 Route::post('/reviews', [App\Http\Controllers\Api\Review\ReviewController::class, 'store']);
@@ -101,7 +104,6 @@ Route::post('/schedule/{user_id}/{schedule_id}', [App\Http\Controllers\Api\User\
 
 //update merchant info
 Route::post('/merchant-info/{user_id}', [App\Http\Controllers\Api\User\AccountController::class, 'updateMerchant']);
-
 
 });
 

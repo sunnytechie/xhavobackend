@@ -17,6 +17,12 @@ class Category extends Model
         return $this->hasMany(User::class);
     }
 
+    //has many merchants
+    public function merchants()
+    {
+        return $this->hasMany(Merchant::class);
+    }
+
     //belongs to interest
     public function interest()
     {

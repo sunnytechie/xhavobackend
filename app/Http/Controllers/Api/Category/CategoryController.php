@@ -17,4 +17,14 @@ class CategoryController extends Controller
             'categories' => $categories,
         ]);
     }
+
+    //merchant by category
+    public function merchantByCategory($category_id) {
+        $merchants = Category::find($category_id)->merchants;
+
+        return response()->json([
+            'status' => 'success',
+            'merchants' => $merchants,
+        ]);
+    }
 }
