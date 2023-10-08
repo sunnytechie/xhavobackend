@@ -58,13 +58,13 @@
                             <tr>
                             <td class="border-bottom-0"><h6 class="fw-semibold mb-0">{{ $id++ }}</h6></td>
                             <td class="border-bottom-0">
-                                <h6 class="fw-semibold mb-1">{{ $customer->user->name }}</h6>
+                                <h6 class="fw-semibold mb-1">{{ $customer->user->name ?? $customer->name }}</h6>
                             </td>
                             <td class="border-bottom-0">
                                 <p class="mb-0 fw-semibold">{{ $customer->user->email }}</p>
                             </td>
                             <td class="border-bottom-0">
-                                <p class="mb-0 fw-semibold">{{ $customer->user->phone }}</p>
+                                <p class="mb-0 fw-semibold">{{ $customer->user->phone ?? $customer->phone }}</p>
                             </td>
                             <td class="border-bottom-0">
                                 <div class="d-flex">
