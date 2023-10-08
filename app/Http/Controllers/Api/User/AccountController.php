@@ -154,6 +154,7 @@ class AccountController extends Controller
 
     //user identity update
     public function identity(Request $request, $user_id) {
+        dd($request->all());
         //validate request
         $request->validate([
             'identity' => 'required|string',
