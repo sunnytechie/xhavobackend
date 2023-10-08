@@ -128,15 +128,15 @@ class AccountController extends Controller
             $image = $request->file('logo');
             $image_name = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images/merchant'), $image_name);
-        } else {
-            $image_name = null;
         }
 
         //find merchant with user id
         $merchant = Merchant::where('user_id', $user_id)->first();
         $merchant->brand_name = $request->brand_name;
         $merchant->category_id = $request->category_id;
-        $merchant->logo = $image_name;
+        if ($request->hasFile('logo')) {
+            $merchant->logo = "/images/merchant/$image_name";
+        }
         $merchant->description = $request->description;
         $merchant->location = $request->location;
         $merchant->whatsapp = $request->whatsapp;

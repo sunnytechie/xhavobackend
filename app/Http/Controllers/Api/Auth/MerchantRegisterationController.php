@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Models\User;
+use App\Models\Category;
 use App\Models\Merchant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -33,6 +34,20 @@ class MerchantRegisterationController extends Controller
             ], 422);
         }
 
+        //find category with category id from request and get the category thumbnail
+        $category = Category::find($request->category_id);
+
+        //make sure category exists
+        if (!$category) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Category not found',
+            ], 404);
+        }
+
+        //category thumbnail
+        $thumbnail = $category->thumbnail;
+
         $merchant = new Merchant();
         $merchant->user_id = $user_id;
         $merchant->name = $request->name;
@@ -42,7 +57,7 @@ class MerchantRegisterationController extends Controller
         $merchant->whatsapp = $request->whatsapp;
         $merchant->brand_name = $request->brand_name;
         $merchant->category_id = $request->category_id;
-        $merchant->logo = "https://xhavo.app/assets/images/profile/user-default.png";
+        $merchant->logo = "/images/categories/$thumbnail";
         $merchant->description = $request->description;
         $merchant->location = $request->location;
         $merchant->save();
