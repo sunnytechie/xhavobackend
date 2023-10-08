@@ -153,16 +153,13 @@ class AccountController extends Controller
     }
 
     //user identity update
-    public function identity(Request $request, $user_id) {
-        dd($request->all());
+    public function updateIdentity(Request $request, $user_id) {
         //validate request
         $request->validate([
             'identity' => 'required|string',
             'identity_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'identity_number' => 'required|string',
         ]);
-
-        dd($request->all());
 
         //save image in storage
         if ($request->hasFile('identity_image')) {
@@ -175,7 +172,6 @@ class AccountController extends Controller
 
         //find user with user id
         $user = User::find($user_id);
-        dd($user);
         $user->identity = $request->identity;
         $user->identity_image = $image_name;
         $user->identity_number = $request->identity_number;
