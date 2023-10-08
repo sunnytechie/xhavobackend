@@ -65,7 +65,7 @@
                             <tr>
                             <td class="border-bottom-0"><h6 class="fw-semibold mb-0">{{ $id++ }}</h6></td>
                             <td class="border-bottom-0">
-                                <img src="/{{ $merchant->logo }}" alt="logo" class="thumbnail">
+                                <img src="https://xhavo.app{{ $merchant->logo }}" alt="logo" class="thumbnail">
                             </td>
                             <td class="border-bottom-0">
                                 <h6 class="fw-semibold mb-1">{{ $merchant->user->name ?? $merchant->name }}</h6>
