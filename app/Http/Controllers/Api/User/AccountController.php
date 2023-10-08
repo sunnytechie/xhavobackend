@@ -161,6 +161,8 @@ class AccountController extends Controller
             'identity_number' => 'required|string',
         ]);
 
+        dd($request->all());
+
         //save image in storage
         if ($request->hasFile('identity_image')) {
             $image = $request->file('identity_image');
@@ -172,6 +174,7 @@ class AccountController extends Controller
 
         //find user with user id
         $user = User::find($user_id);
+        dd($user);
         $user->identity = $request->identity;
         $user->identity_image = $image_name;
         $user->identity_number = $request->identity_number;
