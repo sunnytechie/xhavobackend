@@ -116,11 +116,19 @@ class BookingController extends Controller
                     $image_name = time() . '.' . $image->extension();
                     $image->move(public_path('uploads/identity'), $image_name);
                 }
-                $user->identity = $image_name;
+                $user->identity_image = $image_name;
                 $user->identity_number = $request->identity_number;
                 $user->identity = $request->method_of_identity;
                 $user->save();
             }
+        }
+
+        //check if user->identity is not null
+        if ($user->identity == null) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Please update your KYC details.',
+            ]);
         }
 
 
