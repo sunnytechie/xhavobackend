@@ -10,7 +10,9 @@ class CategoryController extends Controller
 {
     //list of categories
     public function index() {
-        $categories = Category::all();
+        $categories = Category::orderBy('created_at', 'desc')
+        ->where('deleted_at', null)
+        ->get();
 
         return response()->json([
             'status' => 'success',
