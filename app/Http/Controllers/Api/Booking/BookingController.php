@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Booking;
 
+use App\Models\User;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -82,25 +83,53 @@ class BookingController extends Controller
         $request->validate([
             'user_id' => 'required',
             'merchant_id' => 'required',
-            'method_of_identity' => 'required',
-            'identity_image' => 'required',
-            'identity_number' => 'required',
+            'method_of_identity' => 'nullable',
+            'identity_image' => 'nullable',
+            'identity_number' => 'nullable',
         ]);
 
-        //store identity image
-        $image = $request->file('identity_image');
-        $image_name = time() . '.' . $image->extension();
-        $image->move(public_path('uploads/identity'), $image_name);
+        //find user by $request->user_id
+        $user = User::find($request->user_id);
+        //check if user exist
+        if (!$user) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'User not found',
+            ]);
+        }
 
-        $booking = Booking::create([
-            'user_id' => $request->user_id,
-            'merchant_id' => $request->merchant_id,
-            'booking_date' => now()->format('Y-m-d'),
-            'booking_time' => time(),
-            'method_of_identity' => $request->method_of_identity,
-            'identity_image' => $image_name,
-            'identity_number' => $request->identity_number,
-        ]);
+        //check if request does not have identity image
+        if (!$request->hasFile('identity_image')) {
+            //check if user->identity is not null
+            if ($user->identity == null) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Please update your KYC details.',
+                ]);
+            }
+        } else {
+            //check if user->identity is not null
+            if ($user->identity == null) {
+                //store identity image
+                if ($request->hasFile('identity_image')) {
+                    $image = $request->file('identity_image');
+                    $image_name = time() . '.' . $image->extension();
+                    $image->move(public_path('uploads/identity'), $image_name);
+                }
+                $user->identity = $image_name;
+                $user->identity_number = $request->identity_number;
+                $user->identity = $request->method_of_identity;
+                $user->save();
+            }
+        }
+
+
+        $booking = new Booking();
+        $booking->user_id = $request->user_id;
+        $booking->merchant_id = $request->merchant_id;
+        $booking->booking_date = now()->format('Y-m-d');
+        $booking->booking_time = time();
+        $booking->save();
 
         return response()->json([
             'status' => 200,
