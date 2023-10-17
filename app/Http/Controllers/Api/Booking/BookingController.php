@@ -22,6 +22,32 @@ class BookingController extends Controller
         ]);
     }
 
+    //Chart
+    public function chart($user_id) {
+        $user = User::find($user_id);
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found.',
+            ]);
+        }
+
+        $currentYear = date('Y');
+        $monthlyBookings = Booking::where('user_id', $user_id)
+            ->whereYear('created_at', $currentYear)
+            ->selectRaw('MONTH(created_at) as month, COUNT(*) as booking_count')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        // Now you have an array of monthly bookings for the user in the current year
+        return response()->json([
+            'status' => 200,
+            'message' => 'January to December booking Chart',
+            'data' => $monthlyBookings,
+        ]);
+    }
+
     //get all accepted bookings with user id
     public function accepted($user_id)
     {

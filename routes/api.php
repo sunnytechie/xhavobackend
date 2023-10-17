@@ -54,6 +54,7 @@ Route::put('/booking/accept', [App\Http\Controllers\Api\Booking\BookingControlle
 Route::put('/booking/reject', [App\Http\Controllers\Api\Booking\BookingController::class, 'reject']);
 Route::put('/booking/complete', [App\Http\Controllers\Api\Booking\BookingController::class, 'complete']);
 Route::get('/bookings/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'index']);
+Route::get('/bookings/chart/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'chart']);
 Route::get('/bookings/accepted/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'accepted']);
 Route::get('/bookings/rejected/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'rejected']);
 Route::get('/bookings/completed/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'completed']);
