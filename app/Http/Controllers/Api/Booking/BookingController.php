@@ -16,7 +16,7 @@ class BookingController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' => 'User bookings',
+            'message' => 'Customer bookings',
             'data' => $bookings,
         ]);
     }
@@ -27,7 +27,7 @@ class BookingController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' => 'User bookings',
+            'message' => 'Merchant bookings',
             'data' => $bookings,
         ]);
     }
