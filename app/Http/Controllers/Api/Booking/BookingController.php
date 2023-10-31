@@ -10,10 +10,20 @@ use App\Http\Controllers\Controller;
 class BookingController extends Controller
 {
     //get all bookings with user id
-    public function index($user_id)
+    public function customer($user_id)
     {
+        $bookings = Booking::where('user_id', $user_id)->with('user', 'merchant.user')->get();
 
-        $bookings = Booking::where('user_id', $user_id)->with('user')->get();
+        return response()->json([
+            'status' => 200,
+            'message' => 'User bookings',
+            'data' => $bookings,
+        ]);
+    }
+
+    //get customer bookings
+    public function merchant($merchant_id) {
+        $bookings = Booking::where('merchant_id', $merchant_id)->with('merchant.user', 'user')->get();
 
         return response()->json([
             'status' => 200,
@@ -225,6 +235,5 @@ class BookingController extends Controller
             'data' => $booking,
         ]);
     }
-
 
 }
