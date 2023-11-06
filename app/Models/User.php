@@ -66,6 +66,12 @@ class User extends Authenticatable
         return $this->hasMany(Review::class);
     }
 
+    //has many Savedmechant
+    public function savedmerchants()
+    {
+        return $this->hasMany(Savedmerchant::class);
+    }
+
     //has many relationship with booking
     public function bookings()
     {

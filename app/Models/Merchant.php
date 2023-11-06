@@ -55,6 +55,12 @@ class Merchant extends Model
         return $this->belongsTo(Category::class);
     }
 
+    //relationship with category
+    public function savedmerchant()
+    {
+        return $this->belongsTo(Savedmerchant::class);
+    }
+
     public function toSearchableArray() : array
     {
         $array = $this->toArray();

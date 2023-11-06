@@ -26,8 +26,7 @@ class MerchantController extends Controller
         ////}
 
         $users = User::whereHas('merchant')
-        ->with('merchant')
-        ->with('reviews')
+        ->with('merchant', 'reviews', 'thumbnails', 'workschedules')
         ->get();
 
         $merchantData = array();

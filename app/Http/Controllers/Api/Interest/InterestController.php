@@ -9,6 +9,16 @@ use App\Http\Controllers\Controller;
 
 class InterestController extends Controller
 {
+    //index
+    public function index($user_id) {
+        $interests = Interest::with('category')->where('user_id', $user_id)->get();
+
+        return response()->json([
+            'status' => true,
+            'interests' => $interests,
+        ]);
+    }
+
     //store interests
     public function store(Request $request, $user_id)
     {

@@ -23,7 +23,7 @@ class CategoryController extends Controller
     //merchant by category
     public function merchantByCategory($category_id) {
         //$merchants = Category::find($category_id)->merchants;
-        $merchants = Category::with('merchants.reviews')->find($category_id);
+        $merchants = Category::with('merchants.reviews', 'merchant.user.thumbnails', 'merchant.user.workschedules')->find($category_id);
 
         return response()->json([
             'status' => 'success',

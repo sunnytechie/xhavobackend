@@ -84,6 +84,13 @@ Route::post('/identity/{user_id}', [App\Http\Controllers\Api\User\AccountControl
 
 //save interest
 Route::post('/interest/{user_id}', [App\Http\Controllers\Api\Interest\InterestController::class, 'store']);
+Route::get('/interest/user/{user_id}', [App\Http\Controllers\Api\Interest\InterestController::class, 'index']);
+
+//save merchants
+Route::post('/save/merchant/{user_id}/{merchant_id}', [App\Http\Controllers\Api\SavedmerchantController::class, 'store']);
+//list merchant saved
+Route::get('/saved/merchant/{user_id}', [App\Http\Controllers\Api\SavedmerchantController::class, 'index']);
+
 
 //delete user
 Route::delete('/destroy/user/{user_id}', [App\Http\Controllers\Api\User\AccountController::class, 'destroy']);
