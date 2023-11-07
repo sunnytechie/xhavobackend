@@ -224,14 +224,20 @@ class AccountController extends Controller
         if ($user->user_type == 'customer') {
             //find customer with user id
             $customer = Customer::where('user_id', $user_id)->first();
-            $customer->delete();
+            if ($customer) {
+                $customer->delete();
+            }
+
         }
 
         //if user is merchant
         if ($user->user_type == 'merchant') {
             //find merchant with user id
             $merchant = Merchant::where('user_id', $user_id)->first();
-            $merchant->delete();
+
+            if ($merchant) {
+                $merchant->delete();
+            }
         }
 
         //delete user
