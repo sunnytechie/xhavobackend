@@ -48,6 +48,48 @@ class ResetPasswordController extends Controller
         ]);
     }
 
+    //check otp sent matched
+    public function otpCheck(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'otp' => 'required',
+            'email' => 'required',
+            //'password' => 'required|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors()->first(),
+            ], 422);
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        //make sure user exists
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User does not exist.',
+            ], 401);
+        }
+
+        ////make sure otp is correct
+        if ($user->otp != $request->otp) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Invalid otp.',
+            ], 401);
+        }
+
+        ////$user->password = bcrypt($request->password);
+        ////$user->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Proceed to reset password',
+        ]);
+    }
+
     //reset password api
     public function resetPassword(Request $request) {
         $validator = Validator::make($request->all(), [
@@ -84,9 +126,11 @@ class ResetPasswordController extends Controller
         $user->password = bcrypt($request->password);
         $user->save();
 
+        //delete otp // future update
+
         return response()->json([
             'status' => 'success',
-            'message' => 'Password reset successfully.',
+            'message' => 'Proceed to reset password',
         ]);
     }
 

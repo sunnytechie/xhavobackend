@@ -29,6 +29,7 @@ Route::post('/auth/verify-otp', [App\Http\Controllers\Api\Auth\OtpController::cl
 
 // Forgot password routes
 Route::post('/auth/forgot-password', [App\Http\Controllers\Api\Auth\ResetPasswordController::class, 'forgotPassword']);
+Route::post('/auth/otp/verification', [App\Http\Controllers\Api\Auth\ResetPasswordController::class, 'otpCheck']);
 Route::post('/auth/reset-password', [App\Http\Controllers\Api\Auth\ResetPasswordController::class, 'resetPassword']);
 
 //Category routes
