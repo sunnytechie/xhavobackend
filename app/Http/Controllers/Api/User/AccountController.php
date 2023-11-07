@@ -187,13 +187,12 @@ class AccountController extends Controller
 
     //delete user and customer or merchant
     public function destroy(Request $request, $user_id) {
-        dd($request->all());
-        //find user with user id
-        $user = User::find($user_id);
 
         $validator = Validator::make($request->all(), [
             'password' => 'required',
         ]);
+
+        //dd($request->password);
 
         if ($validator->fails()) {
             return response()->json([
@@ -201,6 +200,9 @@ class AccountController extends Controller
                 'message' => $validator->errors()->first(),
             ], 422);
         }
+
+        //find user with user id
+        $user = User::find($user_id);
 
         //make sure old password is correct
         if (!password_verify($request->password, $user->password)) {
