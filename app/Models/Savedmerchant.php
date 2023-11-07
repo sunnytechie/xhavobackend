@@ -20,7 +20,7 @@ class Savedmerchant extends Model
     //relationship with user
     public function merchant()
     {
-        return $this->hasMany(Merchant::class);
+        return $this->hasOne(Merchant::class);
     }
 
 }

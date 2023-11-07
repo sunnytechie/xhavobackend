@@ -21,9 +21,9 @@ class SavedmerchantController extends Controller
             ]);
         }
 
-        //$savedmerchants = Savedmerchant::
-        $savedmerchants = Savedmerchant::with('merchant', 'merchant.category', 'merchant.user.thumbnails', 'merchant.user.workschedules', 'merchant.user.review')
-                    ->orderBy('id', 'desc')
+        $savedmerchants = Savedmerchant::orderBy('id', 'desc')
+        //$savedmerchants = Savedmerchant::with('merchant', 'merchant.category', 'merchant.user.thumbnails', 'merchant.user.workschedules', 'merchant.user.review')
+                    //->orderBy('id', 'desc')
                     ->where('user_id', $user_id)
                     ->get();
 
