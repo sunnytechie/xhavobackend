@@ -39,7 +39,7 @@ class User extends Authenticatable
     //has many relationship with workschedule
     public function workschedules()
     {
-        return $this->hasMany(Workschedule::class);
+        return $this->hasMany(Workschedule::class)->orderBy('sortDay', 'asc');
     }
 
     //has many relationship with thumbnail
