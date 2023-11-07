@@ -21,9 +21,10 @@ class SavedmerchantController extends Controller
             ]);
         }
 
-        $savedmerchants = Savedmerchant::orderBy('id', 'desc')
+        //$savedmerchants = Savedmerchant::
+        $savedmerchants = Savedmerchant::with('merchant', 'merchant.category', 'merchant.user.thumbnails', 'merchant.user.workschedules', 'merchant.user.review')
+                    ->orderBy('id', 'desc')
                     ->where('user_id', $user_id)
-                    ->with('merchant', 'merchant.category', 'merchant.user.thumbnails', 'merchant.user.workschedules', 'merchant.user.review')
                     ->get();
 
         return response()->json([
