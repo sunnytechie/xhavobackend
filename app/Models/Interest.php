@@ -20,7 +20,7 @@ class Interest extends Model
     //has one relationship with category
     public function category()
     {
-        return $this->hasMany(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
 }
