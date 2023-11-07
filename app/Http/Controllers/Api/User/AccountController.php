@@ -204,6 +204,13 @@ class AccountController extends Controller
         //find user with user id
         $user = User::find($user_id);
 
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User not found.',
+            ], 401);
+        }
+
         //make sure old password is correct
         if (!password_verify($request->password, $user->password)) {
             return response()->json([
