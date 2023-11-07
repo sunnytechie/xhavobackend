@@ -17,10 +17,8 @@ class Savedmerchant extends Model
         return $this->belongsTo(User::class);
     }
 
-    //relationship with user
-    public function merchant()
-    {
-        return $this->hasOne(Merchant::class);
+    public function merchant() {
+        return $this->belongsTo(Merchant::class);
     }
 
 }
