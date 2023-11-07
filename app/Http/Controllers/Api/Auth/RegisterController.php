@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Models\User;
 use App\Mail\OtpMail;
 use App\Models\Customer;
+use App\Models\Workschedule;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
@@ -83,6 +84,29 @@ class RegisterController extends Controller
 
         //send otp via email
         Mail::to($user->email)->send(new OtpMail($otp));
+
+        //make workschedules
+        $dayNames = [
+            1 => 'Monday',
+            2 => 'Tuesday',
+            3 => 'Wednesday',
+            4 => 'Thursday',
+            5 => 'Friday',
+            6 => 'Saturday',
+            7 => 'Sunday',
+        ];
+
+        foreach ($dayNames as $day => $dayName) {
+            $schedule = new Workschedule();
+            $schedule->user_id = $user->id;
+            $schedule->day = $dayName; // Add the day name
+            $schedule->sortDay = $day;
+            $schedule->start_time = '00:00 AM'; // Replace with the actual start time
+            $schedule->end_time = '00:00 PM'; // Replace with the actual end time
+            $schedule->save();
+        }
+
+        $user = User::with('workschedules')->find($user->id);
 
         //return user data
         return response()->json([

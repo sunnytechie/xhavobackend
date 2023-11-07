@@ -92,7 +92,6 @@ Route::post('/save/merchant/{user_id}/{merchant_id}', [App\Http\Controllers\Api\
 //list merchant saved
 Route::get('/saved/merchant/{user_id}', [App\Http\Controllers\Api\SavedmerchantController::class, 'index']);
 
-
 //delete user
 Route::delete('/destroy/user/{user_id}', [App\Http\Controllers\Api\User\AccountController::class, 'destroy']);
 

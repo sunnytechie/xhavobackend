@@ -186,9 +186,28 @@ class AccountController extends Controller
     }
 
     //delete user and customer or merchant
-    public function destroy($user_id) {
+    public function destroy(Request $request, $user_id) {
         //find user with user id
         $user = User::find($user_id);
+
+        $validator = Validator::make($request->all(), [
+            'password' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors()->first(),
+            ], 422);
+        }
+        //make sure old password is correct
+        if (!password_verify($request->password, $user->password)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Password is incorrect.',
+            ], 401);
+        }
+
 
         //if user is customer
         if ($user->user_type == 'customer') {
