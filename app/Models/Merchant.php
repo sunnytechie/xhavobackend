@@ -61,14 +61,18 @@ class Merchant extends Model
         return $this->belongsTo(Savedmerchant::class);
     }
 
-    public function toSearchableArray() : array
+    public function toSearchableArray()
     {
         $array = $this->toArray();
 
-        // Customize array...
-        unset($array['created_at']);
-        unset($array['updated_at']);
+        unset($array['created_at, updated_at']);
 
-        return $array;
+        return  [
+            'title' => $this->brand_name,
+            'description' => $this->description,
+            'location' => $this->location,
+            //'category_title' => $this->category_title,
+            //'subcategory_title' => $this->subcategory_title,
+        ];
     }
 }
