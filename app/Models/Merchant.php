@@ -68,7 +68,7 @@ class Merchant extends Model
         unset($array['created_at, updated_at']);
 
         return  [
-            'title' => $this->brand_name,
+            'brand_name' => $this->name,
             'description' => $this->description,
             'location' => $this->location,
             //'category_title' => $this->category_title,
