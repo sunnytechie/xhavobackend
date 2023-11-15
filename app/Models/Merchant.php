@@ -66,7 +66,8 @@ class Merchant extends Model
         $array = $this->toArray();
 
         // Customize array...
-        unset($array['created_at, updated_at']);
+        unset($array['created_at']);
+        unset($array['updated_at']);
 
         return $array;
     }
