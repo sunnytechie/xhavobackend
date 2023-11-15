@@ -114,6 +114,8 @@ Route::post('/schedule/{user_id}/{schedule_id}', [App\Http\Controllers\Api\User\
 //update merchant info
 Route::post('/merchant-info/{user_id}', [App\Http\Controllers\Api\User\AccountController::class, 'updateMerchant']);
 
+Route::get('/merchant/dashboard/{user_id}', [App\Http\Controllers\Api\Dashboard\MerchantController::class, 'index']);
+
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
