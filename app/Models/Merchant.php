@@ -68,12 +68,6 @@ class Merchant extends Model
         // Customize array...
         unset($array['created_at, updated_at']);
 
-        return [
-            'brand_name' => $array['brand_name'],
-            'description' => $array['description'],
-            'state' => $array['state'],
-            'location' => $array['location'],
-            //'category' => $array['category'],
-        ];
+        return $array;
     }
 }

@@ -68,8 +68,8 @@ Route::get('/notifications/{user_id}', [App\Http\Controllers\Api\Notification\No
 Route::post('/report', [App\Http\Controllers\Api\Report\ReportController::class, 'store']);
 
 //search
-Route::post('/search', [App\Http\Controllers\Api\Search\SearchController::class, 'search']);
-Route::post('/filter', [App\Http\Controllers\Api\Search\SearchController::class, 'filter']);
+Route::post('/search', [App\Http\Controllers\Api\ScoutSearch\SearchController::class, 'searchText']);
+Route::post('/filter', [App\Http\Controllers\Api\ScoutSearch\SearchController::class, 'filter']);
 
 //account update
 Route::post('/account/{user_id}', [App\Http\Controllers\Api\User\AccountController::class, 'update']);
