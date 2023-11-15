@@ -30,7 +30,7 @@ class MerchantController extends Controller
         }
 
         $thumbnails = Thumbnail::where('user_id', $user_id)->get();
-        $reviews = Review::where('merchant_id', $merchant->id)->get();
+        $reviews = Review::with('user')->where('merchant_id', $merchant->id)->get();
 
         $currentYear = date('Y');
         $monthlyBookings = Booking::where('user_id', $user_id)

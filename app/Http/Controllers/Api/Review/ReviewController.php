@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api\Review;
 
+use App\Models\User;
 use App\Models\Review;
+use App\Models\Merchant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -13,7 +15,23 @@ class ReviewController extends Controller
      */
     public function index($user_id)
     {
-        $review = Review::where('user_id', $user_id)->get();
+        $user = User::find($user_id);
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found.',
+            ]);
+        }
+
+        $merchant = Merchant::where('user_id', $user_id)->first();
+        if (!$merchant) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User is not a merchant.',
+            ]);
+        }
+
+        $review = Review::with('user')->where('merchant_id', $merchant->id)->get();
 
         return response()->json([
             'success' => true,
