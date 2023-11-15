@@ -7,6 +7,8 @@ use App\Models\Booking;
 use App\Models\Merchant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Review;
+use App\Models\Thumbnail;
 
 class MerchantController extends Controller
 {
@@ -27,8 +29,8 @@ class MerchantController extends Controller
             ]);
         }
 
-        $thumbnails = User::find($user_id)->with('thumbnails');
-        $reviews = User::find($user_id)->with('reviews');
+        $thumbnails = Thumbnail::where('user_id', $user_id)->get();
+        $reviews = Review::where('merchant_id', $merchant->id)->get();
 
         $currentYear = date('Y');
         $monthlyBookings = Booking::where('user_id', $user_id)
@@ -40,6 +42,7 @@ class MerchantController extends Controller
 
         return response()->json([
             'status' => true,
+            'brandName' => $merchant->brand_name,
             'thumbnails' => $thumbnails,
             'chart' => $monthlyBookings,
             'reviews' => $reviews,

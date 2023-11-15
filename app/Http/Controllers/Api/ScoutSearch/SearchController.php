@@ -17,7 +17,7 @@ class SearchController extends Controller
                     ->get();
 
         // Eager load the 'user' relationship
-        $merchants->load(['user', 'user.reviews', 'user.thumbnails', 'user.workschedules']);
+        $merchants->load(['user', 'reviews', 'user.thumbnails', 'user.workschedules']);
 
         return response()->json([
             'merchants' => $merchants,
@@ -29,7 +29,7 @@ class SearchController extends Controller
         $category = $request->input('category');
         $location = $request->input('location');
 
-        $merchants = Merchant::with(['user', 'user.reviews', 'user.thumbnails', 'user.workschedules']) //May need to remove this
+        $merchants = Merchant::with(['user', 'reviews', 'user.thumbnails', 'user.workschedules']) //May need to remove this
                     ->where('category_id', $category)
                     ->orWhere('location', $location)->get();
 
