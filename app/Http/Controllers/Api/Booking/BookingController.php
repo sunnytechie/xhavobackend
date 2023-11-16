@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Merchant;
 
 class BookingController extends Controller
 {
@@ -22,8 +23,24 @@ class BookingController extends Controller
     }
 
     //get customer bookings
-    public function merchant($merchant_id) {
-        $bookings = Booking::where('merchant_id', $merchant_id)->with('merchant.user', 'user')->get();
+    public function merchant($user_id) {
+        $user = User::find($user_id);
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User is not found',
+            ]);
+        }
+
+        $merchant = Merchant::where('user_id', $user_id)->first();
+        if (!$merchant) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Merchant is not found',
+            ]);
+        }
+
+        $bookings = Booking::where('merchant_id', $merchant->id)->with('merchant.user', 'user')->get();
 
         return response()->json([
             'status' => 200,
