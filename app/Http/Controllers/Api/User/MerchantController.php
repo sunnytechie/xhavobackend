@@ -12,21 +12,8 @@ class MerchantController extends Controller
     //list of users with user_type = merchants
     public function index()
     {
-        ////$users = User::where('user_type', 'merchant') ->with('merchant') ->with('reviews') ->get();
-
-        ////$merchantData = array();
-        ////foreach ($users as $user) {
-            ////category
-        ////    $category = Category::where('id', $user->merchant->category_id)->first();
-
-        ////    $merchantData[] = array(
-        ////        'category' => $category->title,
-        ////        'merchant' => $user,
-        ////    );
-        ////}
-
         $users = User::whereHas('merchant')
-        ->with(['merchant', 'reviews.user', 'thumbnails', 'workschedules'])
+        ->with(['merchant', 'thumbnails', 'reviews.user', 'workschedules'])
         ->get();
 
         $merchantData = array();
@@ -42,7 +29,6 @@ class MerchantController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'List of all merchants',
             'data' => $merchantData
         ]);
     }
