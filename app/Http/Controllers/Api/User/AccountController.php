@@ -18,11 +18,11 @@ class AccountController extends Controller
         //validate request
         $request->validate([
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'name' => 'required|string',
-            //'email' => 'required|string',
-            'phone' => 'required|string',
-            'gender' => 'required|string',
-            'birthday' => 'required|string',
+            'name' => 'required',
+            //'email' => 'required',
+            'phone' => 'required',
+            'gender' => 'required',
+            'birthday' => 'required',
         ]);
 
         //save image in storage
@@ -65,11 +65,11 @@ class AccountController extends Controller
     {
         //validate request
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            //'email' => 'required|string',
-            'phone' => 'required|string',
-            'gender' => 'required|string',
-            'birthday' => 'required|string',
+            'name' => 'required',
+            //'email' => 'required',
+            'phone' => 'required',
+            'gender' => 'required',
+            'birthday' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -264,7 +264,7 @@ class AccountController extends Controller
     public function support(Request $request, $user_id) {
         //validate request
         $request->validate([
-            'message' => 'required|string',
+            'message' => 'required',
         ]);
 
         //find user with user id
