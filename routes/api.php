@@ -44,7 +44,6 @@ Route::get('/merchants', [App\Http\Controllers\Api\User\MerchantController::clas
 Route::get('/merchants/category/{category_id}', [App\Http\Controllers\Api\Category\CategoryController::class, 'merchantByCategory']);
 
 //Reviews
-Route::get('/reviews/{user_id}', [App\Http\Controllers\Api\Review\ReviewController::class, 'index']);
 Route::post('/reviews', [App\Http\Controllers\Api\Review\ReviewController::class, 'store']);
 Route::put('/reviews/{review_id}', [App\Http\Controllers\Api\Review\ReviewController::class, 'update']);
 Route::delete('/reviews/{review_id}', [App\Http\Controllers\Api\Review\ReviewController::class, 'destroy']);
@@ -68,6 +67,8 @@ Route::post('/filter', [App\Http\Controllers\Api\ScoutSearch\SearchController::c
 
 ###########################
 Route::middleware('token')->group(function () {
+Route::get('/reviews/{user_id}', [App\Http\Controllers\Api\Review\ReviewController::class, 'index']);
+
 //bookings
 Route::post('/booking/new/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'store']);
 Route::put('/booking/accept/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'accept']);
