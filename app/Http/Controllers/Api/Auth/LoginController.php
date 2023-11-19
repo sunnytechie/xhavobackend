@@ -56,15 +56,19 @@ class LoginController extends Controller
 
         switch ($user->user_type) {
             case 'customer':
-                $user_type = "admin";
+                $user_type = "customer";
                 break;
 
             case 'merchant':
+                $user_type = "merchant";
+                break;
+
+            case 'admin':
                 $user_type = "admin";
                 break;
 
             default:
-                $user_type = "admin";
+                $user_type = "None";
                 break;
         }
 
