@@ -75,6 +75,8 @@ class OtpController extends Controller
             $user->email_verified_at = now();
             $user->save();
 
+            $user->update(['otp' => null]);
+
             return response()->json([
                 'status' => true,
                 'user_id' => $user->id,
