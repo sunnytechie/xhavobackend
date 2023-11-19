@@ -63,7 +63,7 @@ class MerchantRegisterationController extends Controller
         $merchant->save();
 
         //find user with merchant via user id
-        $user = User::with('merchant')->find($user_id);
+        $user = User::with(['merchant', 'workschedules'])->find($user_id);
 
         return response()->json([
             'status' => true,
