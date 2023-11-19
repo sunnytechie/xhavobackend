@@ -15,7 +15,7 @@ class CategoryController extends Controller
         ->get();
 
         return response()->json([
-            'status' => 'success',
+            'status' => true,
             'categories' => $categories,
         ]);
     }
@@ -26,7 +26,7 @@ class CategoryController extends Controller
         $merchants = Category::with(['merchants.reviews.user', 'merchants.user.thumbnails', 'merchants.user.workschedules'])->find($category_id);
 
         return response()->json([
-            'status' => 'success',
+            'status' => true,
             'merchants' => $merchants,
         ]);
     }

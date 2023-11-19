@@ -23,7 +23,7 @@ class RegisterController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => $validator->errors()->first(),
             ], 422);
         }
@@ -51,7 +51,7 @@ class RegisterController extends Controller
         $user = User::with('customer')->find($user->id);
 
         return response()->json([
-            'status' => 'success',
+            'status' => true,
             'user' => $user,
             'message' => 'Please verify your email.',
         ]);
@@ -66,7 +66,7 @@ class RegisterController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => $validator->errors()->first(),
             ], 422);
         }
@@ -110,7 +110,7 @@ class RegisterController extends Controller
 
         //return user data
         return response()->json([
-            'status' => 'success',
+            'status' => true,
             'user' => $user,
             'message' => 'Please verify your email.',
         ]);
@@ -126,7 +126,7 @@ class RegisterController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => $validator->errors()->first(),
             ], 422);
         }
@@ -140,7 +140,7 @@ class RegisterController extends Controller
         $user = User::with('customer')->find($user->id);
 
         return response()->json([
-            'status' => 'success',
+            'status' => true,
             'user' => $user,
             'message' => 'User info updated successfully',
         ]);

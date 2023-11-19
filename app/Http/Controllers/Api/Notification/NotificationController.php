@@ -14,7 +14,7 @@ class NotificationController extends Controller
         $notifications = User::find($user_id)->notifications;
 
         return response()->json([
-            'status' => 200,
+            'status' => true,
             'message' => 'User notifications',
             'data' => $notifications,
         ]);

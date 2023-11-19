@@ -49,18 +49,6 @@ Route::post('/reviews', [App\Http\Controllers\Api\Review\ReviewController::class
 Route::put('/reviews/{review_id}', [App\Http\Controllers\Api\Review\ReviewController::class, 'update']);
 Route::delete('/reviews/{review_id}', [App\Http\Controllers\Api\Review\ReviewController::class, 'destroy']);
 
-//bookings
-Route::post('/booking/new', [App\Http\Controllers\Api\Booking\BookingController::class, 'store']);
-Route::put('/booking/accept', [App\Http\Controllers\Api\Booking\BookingController::class, 'accept']);
-Route::put('/booking/reject', [App\Http\Controllers\Api\Booking\BookingController::class, 'reject']);
-Route::put('/booking/complete', [App\Http\Controllers\Api\Booking\BookingController::class, 'complete']);
-Route::get('/bookings/customer/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'customer']);
-Route::get('/bookings/merchant/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'merchant']);
-Route::get('/bookings/chart/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'chart']);
-Route::get('/bookings/accepted/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'accepted']);
-Route::get('/bookings/rejected/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'rejected']);
-Route::get('/bookings/completed/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'completed']);
-
 //notifications
 Route::get('/notifications/{user_id}', [App\Http\Controllers\Api\Notification\NotificationController::class, 'userNotifications']);
 
@@ -70,6 +58,28 @@ Route::post('/report', [App\Http\Controllers\Api\Report\ReportController::class,
 //search
 Route::post('/search', [App\Http\Controllers\Api\ScoutSearch\SearchController::class, 'searchText']);
 Route::post('/filter', [App\Http\Controllers\Api\ScoutSearch\SearchController::class, 'filter']);
+
+});
+
+
+
+
+
+
+###########################
+Route::middleware('token')->group(function () {
+//bookings
+Route::post('/booking/new/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'store']);
+Route::put('/booking/accept/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'accept']);
+Route::put('/booking/reject/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'reject']);
+Route::put('/booking/complete/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'complete']);
+
+Route::get('/bookings/customer/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'customer']);
+Route::get('/bookings/merchant/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'merchant']);
+Route::get('/bookings/chart/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'chart']);
+Route::get('/bookings/accepted/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'accepted']);
+Route::get('/bookings/rejected/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'rejected']);
+Route::get('/bookings/completed/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'completed']);
 
 //account update
 Route::post('/account/{user_id}', [App\Http\Controllers\Api\User\AccountController::class, 'update']);
@@ -115,8 +125,13 @@ Route::post('/schedule/{user_id}/{schedule_id}', [App\Http\Controllers\Api\User\
 Route::post('/merchant-info/{user_id}', [App\Http\Controllers\Api\User\AccountController::class, 'updateMerchant']);
 
 Route::get('/merchant/dashboard/{user_id}', [App\Http\Controllers\Api\Dashboard\MerchantController::class, 'index']);
-
 });
+##########################
+
+
+
+
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

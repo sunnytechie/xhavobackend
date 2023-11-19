@@ -15,7 +15,7 @@ class ScheduleController extends Controller
             'day' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
-            'status' => '',
+            'status' => 'nullable',
         ]);
 
 
@@ -45,7 +45,7 @@ class ScheduleController extends Controller
         $schedule->save();
 
         return response()->json([
-            'status' => 200,
+            'status' => true,
             'message' => 'Schedule created successfully',
             'schedule' => $schedule,
         ]);
@@ -88,7 +88,7 @@ class ScheduleController extends Controller
         $schedule->save();
 
         return response()->json([
-            'status' => 200,
+            'status' => true,
             'message' => 'Schedule updated successfully',
             'schedule' => $schedule,
         ]);

@@ -54,7 +54,7 @@ class AccountController extends Controller
 
 
         return response()->json([
-            'status' => 'success',
+            'status' => true,
             'user' => $user,
             'message' => 'Account updated successfully',
         ], 200);
@@ -74,7 +74,7 @@ class AccountController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => $validator->errors()->first(),
             ], 422);
         }
@@ -97,7 +97,7 @@ class AccountController extends Controller
         $user = User::with('merchant')->find($user_id);
         //return user
         return response()->json([
-            'status' => 'success',
+            'status' => true,
             'user' => $user,
             'message' => 'Account updated successfully',
         ], 200);
@@ -118,7 +118,7 @@ class AccountController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => $validator->errors()->first(),
             ], 422);
         }
@@ -146,7 +146,7 @@ class AccountController extends Controller
         $user = User::with('merchant')->find($user_id);
 
         return response()->json([
-            'status' => 'success',
+            'status' => true,
             'user' => $user,
             'message' => 'Merchant profile updated successfully',
         ], 200);
@@ -178,7 +178,7 @@ class AccountController extends Controller
         $user->save();
 
         return response()->json([
-            'status' => 'success',
+            'status' => true,
             'user' => $user,
             'message' => 'Identity updated successfully',
         ], 200);
@@ -196,7 +196,7 @@ class AccountController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => $validator->errors()->first(),
             ], 422);
         }
@@ -206,7 +206,7 @@ class AccountController extends Controller
 
         if (!$user) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => 'User not found.',
             ], 401);
         }
@@ -214,7 +214,7 @@ class AccountController extends Controller
         //make sure old password is correct
         if (!password_verify($request->password, $user->password)) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => 'Password is incorrect.',
             ], 401);
         }
@@ -244,7 +244,7 @@ class AccountController extends Controller
         $user->delete();
 
         return response()->json([
-            'status' => 'success',
+            'status' => true,
             'message' => 'Account deleted successfully',
         ], 200);
     }
@@ -271,7 +271,7 @@ class AccountController extends Controller
         //// Code email message here
 
         return response()->json([
-            'status' => 'success',
+            'status' => true,
             'message' => 'Support message sent successfully',
         ], 200);
     }

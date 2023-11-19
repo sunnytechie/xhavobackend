@@ -28,6 +28,7 @@ class User extends Authenticatable
         'identity',
         'identity_image',
         'identity_number',
+        'remember_token',
     ];
 
     //has many relationship with interest

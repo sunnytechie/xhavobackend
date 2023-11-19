@@ -26,7 +26,7 @@ class ThumbnailController extends Controller
         $thumbnail->save();
 
         return response()->json([
-            'status' => 200,
+            'status' => true,
             'message' => 'Thumbnail created successfully',
             'thumbnail' => $thumbnail,
         ]);
@@ -50,7 +50,7 @@ class ThumbnailController extends Controller
         $thumbnail->save();
 
         return response()->json([
-            'status' => 200,
+            'status' => true,
             'message' => 'Thumbnail updated successfully',
             'thumbnail' => $thumbnail,
         ]);

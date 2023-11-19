@@ -19,7 +19,7 @@ class LoginController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => $validator->errors()->first(),
             ], 422);
         }
@@ -28,17 +28,19 @@ class LoginController extends Controller
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
-                'status' => 'error',
-                'message' => 'Invalid credentials.',
+                'status' => false,
+                'message' => 'Wrong Password or Email.',
             ], 401);
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
+        $user->remember_token = $token;
+        $user->save();
 
         //if user email is not verified
         if (!$user->email_verified_at) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => 'Please verify your email.',
             ], 401);
         }
@@ -52,8 +54,23 @@ class LoginController extends Controller
             $user = User::with('merchant')->find($user->id);
         }
 
+        switch ($user->user_type) {
+            case 'customer':
+                $user_type = "admin";
+                break;
+
+            case 'merchant':
+                $user_type = "admin";
+                break;
+
+            default:
+                $user_type = "admin";
+                break;
+        }
+
         return response()->json([
-            'status' => 'success',
+            'status' => true,
+            'user_type' => $user_type,
             'user' => $user,
             'token' => $token,
         ]);

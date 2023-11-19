@@ -29,7 +29,7 @@ class MerchantRegisterationController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => $validator->errors()->first(),
             ], 422);
         }
@@ -40,7 +40,7 @@ class MerchantRegisterationController extends Controller
         //make sure category exists
         if (!$category) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => 'Category not found',
             ], 404);
         }
@@ -66,7 +66,7 @@ class MerchantRegisterationController extends Controller
         $user = User::with('merchant')->find($user_id);
 
         return response()->json([
-            'status' => 'success',
+            'status' => true,
             'user' => $user,
             'message' => 'Merchant registered successfully.',
         ]);

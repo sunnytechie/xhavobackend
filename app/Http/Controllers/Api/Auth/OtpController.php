@@ -19,7 +19,7 @@ class OtpController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => $validator->errors()->first(),
             ], 422);
         }
@@ -34,8 +34,8 @@ class OtpController extends Controller
         Mail::to($request->email)->send(new OtpMail($otp));
 
         return response()->json([
-            'status' => 'success',
-            'message' => 'Otp sent successfully',
+            'status' => true,
+            'message' => 'Please check your email.',
         ]);
     }
 
@@ -48,7 +48,7 @@ class OtpController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => $validator->errors()->first(),
             ], 422);
         }
@@ -58,7 +58,7 @@ class OtpController extends Controller
         //make sure user exists
         if (!$user) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => 'User not found',
             ], 422);
         }
@@ -66,8 +66,8 @@ class OtpController extends Controller
         //make sure otp is not expired
         if (now()->diffInMinutes($user->updated_at) > 20) {
             return response()->json([
-                'status' => 'error',
-                'message' => 'Otp expired',
+                'status' => false,
+                'message' => 'Pin expired',
             ], 422);
         }
 
@@ -76,14 +76,14 @@ class OtpController extends Controller
             $user->save();
 
             return response()->json([
-                'status' => 'success',
+                'status' => true,
                 'user_id' => $user->id,
-                'message' => 'Otp verified successfully',
+                'message' => 'Email verified successfully',
             ]);
         } else {
             return response()->json([
-                'status' => 'error',
-                'message' => 'Invalid otp',
+                'status' => false,
+                'message' => 'Invalid Pin',
             ], 422);
         }
     }

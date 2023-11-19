@@ -19,7 +19,7 @@ class ResetPasswordController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => $validator->errors()->first(),
             ], 422);
         }
@@ -28,7 +28,7 @@ class ResetPasswordController extends Controller
 
         if (!$user) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => 'Email does not exist.',
             ], 401);
         }
@@ -42,7 +42,7 @@ class ResetPasswordController extends Controller
         Mail::to($user->email)->send(new OtpMail($otp));
 
         return response()->json([
-            'status' => 'success',
+            'status' => true,
             'user_id' => $user->id,
             'message' => 'Otp sent successfully.',
         ]);
@@ -58,7 +58,7 @@ class ResetPasswordController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => $validator->errors()->first(),
             ], 422);
         }
@@ -68,7 +68,7 @@ class ResetPasswordController extends Controller
         //make sure user exists
         if (!$user) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => 'User does not exist.',
             ], 401);
         }
@@ -76,7 +76,7 @@ class ResetPasswordController extends Controller
         ////make sure otp is correct
         if ($user->otp != $request->otp) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => 'Invalid otp.',
             ], 401);
         }
@@ -85,7 +85,7 @@ class ResetPasswordController extends Controller
         ////$user->save();
 
         return response()->json([
-            'status' => 'success',
+            'status' => true,
             'message' => 'Proceed to reset password',
         ]);
     }
@@ -100,7 +100,7 @@ class ResetPasswordController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => $validator->errors()->first(),
             ], 422);
         }
@@ -110,7 +110,7 @@ class ResetPasswordController extends Controller
         //make sure user exists
         if (!$user) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => 'User does not exist.',
             ], 401);
         }
@@ -118,7 +118,7 @@ class ResetPasswordController extends Controller
         ////make sure otp is correct
         if ($user->otp != $request->otp) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => 'Invalid otp.',
             ], 401);
         }
@@ -129,7 +129,7 @@ class ResetPasswordController extends Controller
         //delete otp // future update
 
         return response()->json([
-            'status' => 'success',
+            'status' => true,
             'message' => 'Proceed to reset password',
         ]);
     }
@@ -143,7 +143,7 @@ class ResetPasswordController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => $validator->errors()->first(),
             ], 422);
         }
@@ -153,7 +153,7 @@ class ResetPasswordController extends Controller
         //make sure user exists
         if (!$user) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => 'User does not exist.',
             ], 401);
         }
@@ -161,7 +161,7 @@ class ResetPasswordController extends Controller
         //make sure old password is correct
         if (!password_verify($request->old_password, $user->password)) {
             return response()->json([
-                'status' => 'error',
+                'status' => false,
                 'message' => 'Old password is incorrect.',
             ], 401);
         }
@@ -170,7 +170,7 @@ class ResetPasswordController extends Controller
         $user->save();
 
         return response()->json([
-            'status' => 'success',
+            'status' => true,
             'message' => 'Password changed successfully.',
         ]);
     }

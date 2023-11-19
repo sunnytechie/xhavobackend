@@ -24,7 +24,7 @@ class ReportController extends Controller
         $report->save();
 
         return response()->json([
-            'status' => 200,
+            'status' => true,
             'message' => 'Report submitted successfully',
             'data' => $report,
         ]);

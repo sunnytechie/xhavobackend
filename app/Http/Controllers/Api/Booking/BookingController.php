@@ -16,7 +16,7 @@ class BookingController extends Controller
         $bookings = Booking::where('user_id', $user_id)->with('user', 'merchant.user')->get();
 
         return response()->json([
-            'status' => 200,
+            'status' => true,
             'message' => 'Customer bookings',
             'data' => $bookings,
         ]);
@@ -43,7 +43,7 @@ class BookingController extends Controller
         $bookings = Booking::where('merchant_id', $merchant->id)->with('merchant.user', 'user')->get();
 
         return response()->json([
-            'status' => 200,
+            'status' => true,
             'message' => 'Merchant bookings',
             'data' => $bookings,
         ]);
@@ -69,7 +69,7 @@ class BookingController extends Controller
 
         // Now you have an array of monthly bookings for the user in the current year
         return response()->json([
-            'status' => 200,
+            'status' => true,
             'message' => 'January to December booking Chart',
             'data' => $monthlyBookings,
         ]);
@@ -82,7 +82,7 @@ class BookingController extends Controller
         $bookings = Booking::where('user_id', $user_id)->where('booking_status', 'accepted')->get();
 
         return response()->json([
-            'status' => 200,
+            'status' => true,
             'message' => 'User accepted bookings',
             'data' => $bookings,
         ]);
@@ -95,7 +95,7 @@ class BookingController extends Controller
         $bookings = Booking::where('user_id', $user_id)->where('booking_status', 'rejected')->get();
 
         return response()->json([
-            'status' => 200,
+            'status' => true,
             'message' => 'User rejected bookings',
             'data' => $bookings,
         ]);
@@ -108,7 +108,7 @@ class BookingController extends Controller
         $bookings = Booking::where('user_id', $user_id)->where('booking_status', 'completed')->get();
 
         return response()->json([
-            'status' => 200,
+            'status' => true,
             'message' => 'User completed bookings',
             'data' => $bookings,
         ]);
@@ -124,14 +124,14 @@ class BookingController extends Controller
         $bookings = Booking::where('user_id', $request->user_id)->where('booking_status', 'accepted')->get();
 
         return response()->json([
-            'status' => 200,
+            'status' => true,
             'message' => 'Accepted bookings',
             'data' => $bookings,
         ]);
     }
 
     //new booking
-    public function store(Request $request)
+    public function store(Request $request, $user_id)
     {
         $request->validate([
             'user_id' => 'required',
@@ -146,7 +146,7 @@ class BookingController extends Controller
         //check if user exist
         if (!$user) {
             return response()->json([
-                'status' => 404,
+                'status' => false,
                 'message' => 'User not found',
             ]);
         }
@@ -156,7 +156,7 @@ class BookingController extends Controller
             //check if user->identity is not null
             if ($user->identity == null) {
                 return response()->json([
-                    'status' => 404,
+                    'status' => false,
                     'message' => 'Please update your KYC details.',
                 ]);
             }
@@ -179,7 +179,7 @@ class BookingController extends Controller
         //check if user->identity is not null
         if ($user->identity == null) {
             return response()->json([
-                'status' => 404,
+                'status' => false,
                 'message' => 'Please update your KYC details.',
             ]);
         }
@@ -193,14 +193,14 @@ class BookingController extends Controller
         $booking->save();
 
         return response()->json([
-            'status' => 200,
+            'status' => true,
             'message' => 'Booking created successfully',
             'data' => $booking,
         ]);
     }
 
     //accept booking
-    public function accept(Request $request)
+    public function accept(Request $request, $user_id)
     {
         $request->validate([
             'booking_id' => 'required',
@@ -211,14 +211,14 @@ class BookingController extends Controller
         $booking->save();
 
         return response()->json([
-            'status' => 200,
+            'status' => true,
             'message' => 'Booking accepted successfully',
             'data' => $booking,
         ]);
     }
 
     //reject booking
-    public function reject(Request $request)
+    public function reject(Request $request, $user_id)
     {
         $request->validate([
             'booking_id' => 'required',
@@ -229,14 +229,14 @@ class BookingController extends Controller
         $booking->save();
 
         return response()->json([
-            'status' => 200,
+            'status' => true,
             'message' => 'Booking rejected successfully',
             'data' => $booking,
         ]);
     }
 
     //complete booking
-    public function complete(Request $request)
+    public function complete(Request $request, $user_id)
     {
         $request->validate([
             'booking_id' => 'required',
@@ -247,7 +247,7 @@ class BookingController extends Controller
         $booking->save();
 
         return response()->json([
-            'status' => 200,
+            'status' => true,
             'message' => 'Booking completed successfully',
             'data' => $booking,
         ]);
