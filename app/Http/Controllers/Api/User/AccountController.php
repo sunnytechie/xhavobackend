@@ -169,8 +169,8 @@ class AccountController extends Controller
                 'message' => $validator->errors()->first(),
             ], 422);
         }
-        
-        dd('Checking errors');
+
+        //dd('Checking errors');
 
         //save image in storage
         if ($request->hasFile('identity_image')) {
