@@ -126,12 +126,11 @@ Route::post('/schedule/{user_id}/{schedule_id}', [App\Http\Controllers\Api\User\
 Route::post('/merchant-info/{user_id}', [App\Http\Controllers\Api\User\AccountController::class, 'updateMerchant']);
 
 Route::get('/merchant/dashboard/{user_id}', [App\Http\Controllers\Api\Dashboard\MerchantController::class, 'index']);
+
+Route::post('/auth/logout/user/{user_id}', [App\Http\Controllers\Api\Auth\LogOutController::class, 'logout']);
+
 });
 ##########################
-
-
-
-
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
