@@ -156,13 +156,21 @@ class AccountController extends Controller
     public function updateIdentity(Request $request, $user_id) {
 
         //validate request
-        $request->validate([
-            'identity' => 'required|string',
-            'identity_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'identity_number' => 'required|string',
+        $validator = Validator::make($request->all(), [
+            'identity' => 'required',
+            'identity_image' => 'required|image',
+            'identity_number' => 'required',
         ]);
 
-        dd('hello');
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ], 422);
+        }
+        
+        dd('Checking errors');
 
         //save image in storage
         if ($request->hasFile('identity_image')) {
