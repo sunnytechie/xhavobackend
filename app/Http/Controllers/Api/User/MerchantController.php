@@ -13,7 +13,7 @@ class MerchantController extends Controller
     public function index()
     {
         $users = User::whereHas('merchant')
-        ->with(['merchant', 'thumbnails', 'reviews.merchant.user', 'workschedules'])
+        ->with(['merchant', 'thumbnails', 'merchant.reviews.user', 'workschedules'])
         ->get();
 
         $merchantData = array();
