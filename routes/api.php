@@ -50,9 +50,6 @@ Route::post('/reviews', [App\Http\Controllers\Api\Review\ReviewController::class
 Route::put('/reviews/{review_id}', [App\Http\Controllers\Api\Review\ReviewController::class, 'update']);
 Route::delete('/reviews/{review_id}', [App\Http\Controllers\Api\Review\ReviewController::class, 'destroy']);
 
-//notifications
-Route::get('/notifications/{user_id}', [App\Http\Controllers\Api\Notification\NotificationController::class, 'userNotifications']);
-
 //report
 Route::post('/report', [App\Http\Controllers\Api\Report\ReportController::class, 'store']);
 
@@ -67,6 +64,8 @@ Route::post('/filter', [App\Http\Controllers\Api\ScoutSearch\SearchController::c
 
 ###########################
 Route::middleware('token')->group(function () {
+//notifications
+Route::get('/notifications/{user_id}', [App\Http\Controllers\Api\Notification\NotificationController::class, 'userNotifications']);
 
 Route::get('/account/user/{user_id}', [App\Http\Controllers\Api\User\UserController::class, 'userInfo']);
 
