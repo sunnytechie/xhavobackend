@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Review;
 use App\Models\Thumbnail;
+use App\Models\Workschedule;
 
 class MerchantController extends Controller
 {
@@ -31,6 +32,7 @@ class MerchantController extends Controller
 
         $thumbnails = Thumbnail::where('user_id', $user_id)->get();
         $reviews = Review::with('user')->where('merchant_id', $merchant->id)->get();
+        $schedule = Workschedule::orderBy('sortDay', 'asc')->where('user_id', $user_id)->get();
 
         $currentYear = date('Y');
         $monthlyBookings = Booking::where('user_id', $user_id)
@@ -46,6 +48,7 @@ class MerchantController extends Controller
             'thumbnails' => $thumbnails,
             'chart' => $monthlyBookings,
             'reviews' => $reviews,
+            'schedule' => $schedule,
         ]);
     }
 }
