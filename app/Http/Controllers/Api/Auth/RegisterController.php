@@ -49,10 +49,14 @@ class RegisterController extends Controller
 
         //get user data with customer data
         $user = User::with('customer')->find($user->id);
+        $token = $user->createToken('auth_token')->plainTextToken;
+        $user->remember_token = $token;
+        $user->save();
 
         return response()->json([
             'status' => true,
             'user' => $user,
+            'token' => $token,
             'message' => 'Please verify your email.',
         ]);
     }
@@ -107,11 +111,15 @@ class RegisterController extends Controller
         }
 
         $user = User::with('workschedules')->find($user->id);
+        $token = $user->createToken('auth_token')->plainTextToken;
+        $user->remember_token = $token;
+        $user->save();
 
         //return user data
         return response()->json([
             'status' => true,
             'user' => $user,
+            'token' => $token,
             'message' => 'Please verify your email.',
         ]);
     }

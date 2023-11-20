@@ -22,6 +22,8 @@ Route::post('/auth/customer-info/{user_id}', [App\Http\Controllers\Api\Auth\Regi
 
 //Register merchant
 Route::post('/auth/register-merchant', [App\Http\Controllers\Api\Auth\RegisterController::class, 'merchantRegister']);
+//merchant registeration
+Route::post('/register/merchant/{user_id}', [App\Http\Controllers\Api\Auth\MerchantRegisterationController::class, 'register']);
 
 // Otp routes
 Route::post('/auth/send-otp', [App\Http\Controllers\Api\Auth\OtpController::class, 'sendOtp']);
@@ -63,10 +65,11 @@ Route::post('/filter', [App\Http\Controllers\Api\ScoutSearch\SearchController::c
 
 
 
-
-
 ###########################
 Route::middleware('token')->group(function () {
+
+Route::get('/account/user/{user_id}', [App\Http\Controllers\Api\User\UserController::class, 'userInfo']);
+
 Route::get('/reviews/{user_id}', [App\Http\Controllers\Api\Review\ReviewController::class, 'index']);
 
 //bookings
@@ -108,9 +111,6 @@ Route::delete('/destroy/user/{user_id}', [App\Http\Controllers\Api\User\AccountC
 
 //support
 Route::post('/support/{user_id}', [App\Http\Controllers\Api\User\AccountController::class, 'support']);
-
-//merchant registeration
-Route::post('/register/merchant/{user_id}', [App\Http\Controllers\Api\Auth\MerchantRegisterationController::class, 'register']);
 
 //store thumbnail
 Route::post('/thumbnail/{user_id}', [App\Http\Controllers\Api\User\ThumbnailController::class, 'store']);
