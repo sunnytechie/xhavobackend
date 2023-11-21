@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Models\User;
 use App\Mail\OtpMail;
 use App\Models\Customer;
+use App\Models\Interest;
 use App\Models\Workschedule;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -129,7 +130,7 @@ class RegisterController extends Controller
         $validator = Validator::make($request->all(), [
             'state' => 'required',
             'city' => 'required',
-            'category' => 'required',
+            'categories' => 'nullable',
         ]);
 
         if ($validator->fails()) {
@@ -139,13 +140,23 @@ class RegisterController extends Controller
             ], 422);
         }
 
+        if ($request->has('categories')) {
+            $categories = json_decode($request->categories);
+
+            foreach ($categories as $category) {
+                $interest = new Interest();
+                $interest->category_id = $category->id;
+                $interest->user_id = $user_id;
+                $interest->save();
+            }
+        }
+
         $user = User::find($user_id);
         $user->state = $request->state;
         $user->city = $request->city;
-        $user->category_id = $request->category;
         $user->save();
 
-        $user = User::with('customer')->find($user->id);
+        $user = User::with(['customer', 'interests'])->find($user->id);
 
         return response()->json([
             'status' => true,

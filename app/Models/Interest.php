@@ -11,9 +11,8 @@ class Interest extends Model
     use HasFactory;
 
     //belongs to many relationship with user
-    public function users()
+    public function user()
     {
-        //return $this->belongsToMany(User::class);
         return $this->belongsTo(User::class);
     }
 

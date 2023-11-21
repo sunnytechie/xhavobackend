@@ -18,7 +18,7 @@ class UserController extends Controller
         }
 
         $data = User::find($user_id)
-        ->load(['merchant.user.thumbnails', 'merchant.reviews.user', 'merchant.user.workschedules', 'customer']);
+        ->load(['merchant.user.thumbnails', 'merchant.reviews.user', 'merchant.user.workschedules', 'customer', 'interests']);
         $user_type = $user->user_type;
 
         return response()->json([
