@@ -37,14 +37,6 @@ class LoginController extends Controller
         $user->remember_token = $token;
         $user->save();
 
-        //if user email is not verified
-        if (!$user->email_verified_at) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Please verify your email.',
-            ], 401);
-        }
-
         //if user user_type is customer get user with customer
         if ($user->user_type == 'customer') {
             $user = User::with('customer')->find($user->id);
@@ -70,6 +62,17 @@ class LoginController extends Controller
             default:
                 $user_type = "None";
                 break;
+        }
+
+        //if user email is not verified
+        if (!$user->email_verified_at) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Please verify your email.',
+                'user_type' => $user_type,
+                'user' => $user,
+                'token' => $token,
+            ], 401);
         }
 
         return response()->json([
