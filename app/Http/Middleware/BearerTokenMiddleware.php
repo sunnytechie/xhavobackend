@@ -22,7 +22,7 @@ class BearerTokenMiddleware
 
         if ($request->header('Authorization') !== "Bearer $token") {
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'message' => 'Unauthorized'
             ], 401);
         }

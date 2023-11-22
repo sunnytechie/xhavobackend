@@ -28,7 +28,7 @@ class MerchantController extends Controller
         }
 
         return response()->json([
-            'success' => true,
+            'status' => true,
             'data' => $merchantData
         ]);
     }

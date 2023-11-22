@@ -34,7 +34,7 @@ class ReviewController extends Controller
         $review = Review::with('user')->where('merchant_id', $merchant->id)->get();
 
         return response()->json([
-            'success' => true,
+            'status' => true,
             'message' => 'requested user reviews',
             'data' => $review
         ]);
@@ -64,7 +64,7 @@ class ReviewController extends Controller
         //if validation fails
         if($request->fails()){
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'message' => 'Validation failed',
                 'data' => $request->errors()
             ]);
@@ -80,7 +80,7 @@ class ReviewController extends Controller
 
         //return response
         return response()->json([
-            'success' => true,
+            'status' => true,
             'message' => 'Review created successfully',
             'data' => $review
         ]);
@@ -117,7 +117,7 @@ class ReviewController extends Controller
         //if validation fails
         if($request->fails()){
             return response()->json([
-                'success' => false,
+                'status' => false,
                 'message' => 'Validation failed',
                 'data' => $request->errors()
             ]);
@@ -131,7 +131,7 @@ class ReviewController extends Controller
 
         //return response
         return response()->json([
-            'success' => true,
+            'status' => true,
             'message' => 'Review updated successfully',
             'data' => $review
         ]);
@@ -148,7 +148,7 @@ class ReviewController extends Controller
 
         //return response
         return response()->json([
-            'success' => true,
+            'status' => true,
             'message' => 'Review deleted successfully',
             'data' => $review
         ]);
