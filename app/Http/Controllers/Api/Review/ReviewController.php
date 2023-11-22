@@ -63,15 +63,6 @@ class ReviewController extends Controller
             'comment' => 'required'
         ]);
 
-        //if validation fails
-        if($request->fails()){
-            return response()->json([
-                'status' => false,
-                'message' => 'Validation failed',
-                'data' => $request->errors()
-            ]);
-        }
-
         //new review
         $review = new Review();
         $review->user_id = $request->user_id;
