@@ -31,7 +31,7 @@ class MerchantController extends Controller
         }
 
         $thumbnails = Thumbnail::where('user_id', $user_id)->get();
-        $reviews = Review::with('user')->where('merchant_id', $merchant->id)->get();
+        $reviews = Review::with('user.customer')->where('merchant_id', $merchant->id)->get();
         $schedule = Workschedule::orderBy('sortDay', 'asc')->where('user_id', $user_id)->get();
 
         $currentYear = date('Y');

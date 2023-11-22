@@ -24,7 +24,7 @@ class CategoryController extends Controller
     public function merchantByCategory($category_id) {
         //$merchants = Category::find($category_id)->merchants;
         $merchants = Category::find($category_id)
-        ->load(['merchants.user.thumbnails', 'merchants.reviews.user', 'merchants.user.workschedules']);
+        ->load(['merchants.user.thumbnails', 'merchants.reviews.user.customer', 'merchants.user.workschedules']);
 
         return response()->json([
             'status' => true,
