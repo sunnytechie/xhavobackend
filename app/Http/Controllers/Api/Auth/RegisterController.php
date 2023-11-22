@@ -56,8 +56,8 @@ class RegisterController extends Controller
 
         return response()->json([
             'status' => true,
-            'user' => $user,
             'token' => $token,
+            'user' => $user,
             'message' => 'Please verify your email.',
         ]);
     }
@@ -119,8 +119,8 @@ class RegisterController extends Controller
         //return user data
         return response()->json([
             'status' => true,
-            'user' => $user,
             'token' => $token,
+            'user' => $user,
             'message' => 'Please verify your email.',
         ]);
     }

@@ -22,6 +22,11 @@ Route::post('/auth/register-customer', [App\Http\Controllers\Api\Auth\RegisterCo
 //Register merchant
 Route::post('/auth/register-merchant', [App\Http\Controllers\Api\Auth\RegisterController::class, 'merchantRegister']);
 
+//Category routes
+Route::get('/categories', [App\Http\Controllers\Api\Category\CategoryController::class, 'index']);
+
+//middleware bearer token
+Route::middleware('bearer')->group(function () {
 // Otp routes
 Route::post('/auth/send-otp', [App\Http\Controllers\Api\Auth\OtpController::class, 'sendOtp']);
 Route::post('/auth/verify-otp', [App\Http\Controllers\Api\Auth\OtpController::class, 'verifyOtp']);
@@ -30,17 +35,6 @@ Route::post('/auth/verify-otp', [App\Http\Controllers\Api\Auth\OtpController::cl
 Route::post('/auth/forgot-password', [App\Http\Controllers\Api\Auth\ResetPasswordController::class, 'forgotPassword']);
 Route::post('/auth/otp/verification', [App\Http\Controllers\Api\Auth\ResetPasswordController::class, 'otpCheck']);
 Route::post('/auth/reset-password', [App\Http\Controllers\Api\Auth\ResetPasswordController::class, 'resetPassword']);
-
-//Category routes
-Route::get('/categories', [App\Http\Controllers\Api\Category\CategoryController::class, 'index']);
-
-//middleware bearer token
-Route::middleware('bearer')->group(function () {
-//customer register
-Route::post('/auth/customer-info/{user_id}', [App\Http\Controllers\Api\Auth\RegisterController::class, 'customerInfo']);
-
-//merchant registeration
-Route::post('/register/merchant/{user_id}', [App\Http\Controllers\Api\Auth\MerchantRegisterationController::class, 'register']);
 
 //Merchants
 Route::get('/merchants', [App\Http\Controllers\Api\User\MerchantController::class, 'index']);
@@ -67,6 +61,12 @@ Route::post('/filter', [App\Http\Controllers\Api\ScoutSearch\SearchController::c
 
 ###########################
 Route::middleware('token')->group(function () {
+//customer register
+Route::post('/auth/customer-info/{user_id}', [App\Http\Controllers\Api\Auth\RegisterController::class, 'customerInfo']);
+
+//merchant registeration
+Route::post('/register/merchant/{user_id}', [App\Http\Controllers\Api\Auth\MerchantRegisterationController::class, 'register']);
+
 //notifications
 Route::get('/notifications/{user_id}', [App\Http\Controllers\Api\Notification\NotificationController::class, 'userNotifications']);
 
