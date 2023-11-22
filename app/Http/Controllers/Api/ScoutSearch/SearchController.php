@@ -17,23 +17,38 @@ class SearchController extends Controller
                     ->get();
 
         // Eager load the 'user' relationship
-        $merchants->load(['user', 'reviews.user', 'user.thumbnails', 'user.workschedules']);
+        $merchants->load(['user', 'reviews.user.customer', 'user.thumbnails', 'user.workschedules']);
 
         return response()->json([
+            'status' => true,
             'merchants' => $merchants,
         ], 200);
     }
 
     //filter by category and location
     public function filter(Request $request) {
-        $category = $request->input('category');
         $location = $request->input('location');
 
-        $merchants = Merchant::with(['user', 'reviews.user', 'user.thumbnails', 'user.workschedules']) //May need to remove this
-                    ->where('category_id', $category)
-                    ->orWhere('location', $location)->get();
+        if ($request->has('categories')) {
+            $categories = json_decode($request->categories);
+
+            if (!empty($categories)) {
+                $merchants = Merchant::with(['user', 'reviews.user.customer', 'user.thumbnails', 'user.workschedules'])
+                    ->whereIn('category_id', $categories)
+                    ->where('location', $location)
+                    ->get();
+            } else {
+                // Handle the case where no categories are provided
+                $merchants = Merchant::get();
+            }
+        } else {
+            // Handle the case where no categories parameter is present in the request
+            $merchants = Merchant::get();
+        }
+
 
         return response()->json([
+            'status' => true,
             'merchants' => $merchants,
         ], 200);
     }
