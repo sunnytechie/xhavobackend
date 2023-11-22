@@ -18,12 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::post('/auth/login', [App\Http\Controllers\Api\Auth\LoginController::class, 'login']);
 //Register routes
 Route::post('/auth/register-customer', [App\Http\Controllers\Api\Auth\RegisterController::class, 'customerRegister']);
-Route::post('/auth/customer-info/{user_id}', [App\Http\Controllers\Api\Auth\RegisterController::class, 'customerInfo']);
 
 //Register merchant
 Route::post('/auth/register-merchant', [App\Http\Controllers\Api\Auth\RegisterController::class, 'merchantRegister']);
-//merchant registeration
-Route::post('/register/merchant/{user_id}', [App\Http\Controllers\Api\Auth\MerchantRegisterationController::class, 'register']);
 
 // Otp routes
 Route::post('/auth/send-otp', [App\Http\Controllers\Api\Auth\OtpController::class, 'sendOtp']);
@@ -39,6 +36,12 @@ Route::get('/categories', [App\Http\Controllers\Api\Category\CategoryController:
 
 //middleware bearer token
 Route::middleware('bearer')->group(function () {
+//customer register
+Route::post('/auth/customer-info/{user_id}', [App\Http\Controllers\Api\Auth\RegisterController::class, 'customerInfo']);
+
+//merchant registeration
+Route::post('/register/merchant/{user_id}', [App\Http\Controllers\Api\Auth\MerchantRegisterationController::class, 'register']);
+
 //Merchants
 Route::get('/merchants', [App\Http\Controllers\Api\User\MerchantController::class, 'index']);
 
