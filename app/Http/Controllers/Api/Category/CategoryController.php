@@ -22,6 +22,15 @@ class CategoryController extends Controller
 
     //merchant by category
     public function merchantByCategory($category_id) {
+
+        $category = Category::find($category_id);
+        if (!$category) {
+            return response()->json([
+                'status' => false,
+                'message' => "Category does not exist.",
+            ]);
+        }
+
         //$merchants = Category::find($category_id)->merchants;
         $merchants = Category::find($category_id)
         ->load(['merchants.user.thumbnails', 'merchants.reviews.user.customer', 'merchants.user.workschedules']);
