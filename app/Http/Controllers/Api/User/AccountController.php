@@ -31,7 +31,7 @@ class AccountController extends Controller
             $image_name = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images/profile'), $image_name);
         } else {
-            $image_name = "https://xhavo.app/assets/images/profile/user-default.png";
+            $image_name = "user-default.png";
         }
 
         //find user with user id
