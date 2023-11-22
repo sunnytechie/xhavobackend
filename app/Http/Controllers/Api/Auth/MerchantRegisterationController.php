@@ -64,10 +64,10 @@ class MerchantRegisterationController extends Controller
 
         //find user with merchant via user id
         $user = User::with(['merchant', 'workschedules'])->find($user_id);
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-        $user->remember_token = $token;
-        $user->save();
+        $token = $user->remember_token;
+        //$token = $user->createToken('auth_token')->plainTextToken;
+        //$user->remember_token = $token;
+        //$user->save();
 
         return response()->json([
             'status' => true,
