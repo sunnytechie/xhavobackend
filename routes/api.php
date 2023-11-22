@@ -70,9 +70,9 @@ Route::get('/account/user/{user_id}', [App\Http\Controllers\Api\User\UserControl
 Route::get('/reviews/{user_id}', [App\Http\Controllers\Api\Review\ReviewController::class, 'index']);
 
 //Reviews
-Route::post('/reviews', [App\Http\Controllers\Api\Review\ReviewController::class, 'store']);
-Route::put('/reviews/{review_id}', [App\Http\Controllers\Api\Review\ReviewController::class, 'update']);
-Route::delete('/reviews/{review_id}', [App\Http\Controllers\Api\Review\ReviewController::class, 'destroy']);
+Route::post('/review', [App\Http\Controllers\Api\Review\ReviewController::class, 'store']);
+Route::put('/review/{review_id}', [App\Http\Controllers\Api\Review\ReviewController::class, 'update']);
+Route::delete('/review/{review_id}', [App\Http\Controllers\Api\Review\ReviewController::class, 'destroy']);
 
 //bookings
 Route::post('/booking/new/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'store']);
