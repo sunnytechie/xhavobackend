@@ -39,11 +39,11 @@ class SearchController extends Controller
                     ->get();
             } else {
                 // Handle the case where no categories are provided
-                $merchants = Merchant::get();
+                $merchants = Merchant::with(['user', 'reviews.user.customer', 'user.thumbnails', 'user.workschedules'])->get();
             }
         } else {
             // Handle the case where no categories parameter is present in the request
-            $merchants = Merchant::get();
+            $merchants = Merchant::with(['user', 'reviews.user.customer', 'user.thumbnails', 'user.workschedules'])->get();
         }
 
 
