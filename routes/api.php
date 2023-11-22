@@ -42,11 +42,6 @@ Route::get('/merchants', [App\Http\Controllers\Api\User\MerchantController::clas
 //Merchant by category
 Route::get('/merchants/category/{category_id}', [App\Http\Controllers\Api\Category\CategoryController::class, 'merchantByCategory']);
 
-//Reviews
-Route::post('/reviews', [App\Http\Controllers\Api\Review\ReviewController::class, 'store']);
-Route::put('/reviews/{review_id}', [App\Http\Controllers\Api\Review\ReviewController::class, 'update']);
-Route::delete('/reviews/{review_id}', [App\Http\Controllers\Api\Review\ReviewController::class, 'destroy']);
-
 //report
 Route::post('/report', [App\Http\Controllers\Api\Report\ReportController::class, 'store']);
 
@@ -73,6 +68,11 @@ Route::get('/notifications/{user_id}', [App\Http\Controllers\Api\Notification\No
 Route::get('/account/user/{user_id}', [App\Http\Controllers\Api\User\UserController::class, 'userInfo']);
 
 Route::get('/reviews/{user_id}', [App\Http\Controllers\Api\Review\ReviewController::class, 'index']);
+
+//Reviews
+Route::post('/reviews', [App\Http\Controllers\Api\Review\ReviewController::class, 'store']);
+Route::put('/reviews/{review_id}', [App\Http\Controllers\Api\Review\ReviewController::class, 'update']);
+Route::delete('/reviews/{review_id}', [App\Http\Controllers\Api\Review\ReviewController::class, 'destroy']);
 
 //bookings
 Route::post('/booking/new/{user_id}', [App\Http\Controllers\Api\Booking\BookingController::class, 'store']);
