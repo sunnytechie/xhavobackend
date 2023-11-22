@@ -61,6 +61,8 @@ class ReviewController extends Controller
             'comment' => 'required'
         ]);
 
+        dd('checking.');
+
         //if validation fails
         if($request->fails()){
             return response()->json([
