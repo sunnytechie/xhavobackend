@@ -112,9 +112,7 @@ class RegisterController extends Controller
         }
 
         $user = User::with('workschedules')->find($user->id);
-        $token = $user->createToken('auth_token')->plainTextToken;
-        $user->remember_token = $token;
-        $user->save();
+        $token = $user->remember_token;
 
         //return user data
         return response()->json([
