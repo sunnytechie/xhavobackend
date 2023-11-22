@@ -74,7 +74,6 @@ class ReviewController extends Controller
         //return response
         return response()->json([
             'status' => true,
-            'message' => 'Review created successfully',
             'data' => $review
         ]);
 
