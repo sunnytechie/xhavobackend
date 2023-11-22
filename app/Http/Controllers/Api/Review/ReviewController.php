@@ -53,6 +53,7 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
+        dd('checking.');
         //validate request
         $request->validate([
             'user_id' => 'required',
@@ -61,7 +62,7 @@ class ReviewController extends Controller
             'comment' => 'required'
         ]);
 
-        dd('checking.');
+
 
         //if validation fails
         if($request->fails()){
