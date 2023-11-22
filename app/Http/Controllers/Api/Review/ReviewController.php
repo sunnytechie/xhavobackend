@@ -7,6 +7,7 @@ use App\Models\Review;
 use App\Models\Merchant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class ReviewController extends Controller
 {
@@ -55,7 +56,7 @@ class ReviewController extends Controller
     {
 
         //validate request
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'user_id' => 'required',
             'merchant_id' => 'required',
             'rating' => 'required',
@@ -70,8 +71,6 @@ class ReviewController extends Controller
                 'data' => $request->errors()
             ]);
         }
-
-        dd('checking.');
 
         //new review
         $review = new Review();
