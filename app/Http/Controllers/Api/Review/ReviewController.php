@@ -62,8 +62,6 @@ class ReviewController extends Controller
             'comment' => 'required'
         ]);
 
-        dd('checking.');
-
         //if validation fails
         if($request->fails()){
             return response()->json([
@@ -72,6 +70,8 @@ class ReviewController extends Controller
                 'data' => $request->errors()
             ]);
         }
+
+        dd('checking.');
 
         //new review
         $review = new Review();
