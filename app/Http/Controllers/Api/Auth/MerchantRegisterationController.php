@@ -71,8 +71,8 @@ class MerchantRegisterationController extends Controller
 
         return response()->json([
             'status' => true,
-            'user' => $user,
             'token' => $token,
+            'user' => $user,
             'message' => 'Merchant registered successfully.',
         ]);
     }
