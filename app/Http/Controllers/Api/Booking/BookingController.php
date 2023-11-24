@@ -13,7 +13,7 @@ class BookingController extends Controller
     //get all bookings with user id
     public function customer($user_id)
     {
-        $bookings = Booking::where('user_id', $user_id)->with('user', 'merchant.user')->get();
+        $bookings = Booking::where('user_id', $user_id)->with('merchant.user')->get();
 
         return response()->json([
             'status' => true,
@@ -40,7 +40,7 @@ class BookingController extends Controller
             ]);
         }
 
-        $bookings = Booking::where('merchant_id', $merchant->id)->with('merchant.user', 'user')->get();
+        $bookings = Booking::where('merchant_id', $merchant->id)->with('user')->get();
 
         return response()->json([
             'status' => true,
@@ -78,8 +78,7 @@ class BookingController extends Controller
     //get all accepted bookings with user id
     public function accepted($user_id)
     {
-
-        $bookings = Booking::where('user_id', $user_id)->where('booking_status', 'accepted')->get();
+        $bookings = Booking::with('user', 'merchant.user')->where('user_id', $user_id)->where('booking_status', 'accepted')->get();
 
         return response()->json([
             'status' => true,
@@ -92,7 +91,7 @@ class BookingController extends Controller
     public function rejected($user_id)
     {
 
-        $bookings = Booking::where('user_id', $user_id)->where('booking_status', 'rejected')->get();
+        $bookings = Booking::with('user', 'merchant.user')->where('user_id', $user_id)->where('booking_status', 'rejected')->get();
 
         return response()->json([
             'status' => true,
@@ -105,7 +104,7 @@ class BookingController extends Controller
     public function completed($user_id)
     {
 
-        $bookings = Booking::where('user_id', $user_id)->where('booking_status', 'completed')->get();
+        $bookings = Booking::with('user', 'merchant.user')->where('user_id', $user_id)->where('booking_status', 'completed')->get();
 
         return response()->json([
             'status' => true,
@@ -121,7 +120,7 @@ class BookingController extends Controller
             'user_id' => 'required',
         ]);
 
-        $bookings = Booking::where('user_id', $request->user_id)->where('booking_status', 'accepted')->get();
+        $bookings = Booking::with('user', 'merchant.user')->where('user_id', $request->user_id)->where('booking_status', 'accepted')->get();
 
         return response()->json([
             'status' => true,
