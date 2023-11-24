@@ -42,7 +42,7 @@ class LoginController extends Controller
         //if user user_type is customer get user with customer
         if ($user->user_type == 'customer') {
             $data = User::find($user->id)
-            ->with(['customer', 'interests'])->find($user->id);
+            ->with(['customer.user.interests'])->find($user->id);
         }
         //if user_type is merchant get user with merchant
         if ($user->user_type == 'merchant') {
