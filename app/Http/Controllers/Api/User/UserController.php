@@ -35,8 +35,8 @@ class UserController extends Controller
         return response()->json([
             'status' => true,
             'user_type' => $user_type,
-            'user' => $user,
-            'data' => $data
+            'user' => $data,
+            //'data' => $data
         ]);
     }
 }

@@ -74,8 +74,8 @@ class LoginController extends Controller
                 'status' => true,
                 'message' => 'Please verify your email.',
                 'user_type' => $user_type,
-                'user' => $user,
-                'data' => $data,
+                'user' => $data,
+                //'data' => $data,
                 'token' => $token,
             ], 401);
         }
