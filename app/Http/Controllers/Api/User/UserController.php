@@ -17,8 +17,19 @@ class UserController extends Controller
             ]);
         }
 
-        $data = User::find($user_id)
-        ->load(['merchant.user.thumbnails', 'merchant.reviews.user.customer', 'merchant.user.workschedules', 'customer', 'interests']);
+        //$data = User::find($user_id)
+        //->load(['thumbnails', 'merchant.reviews.user.customer', 'workschedules', 'customer', 'interests']);
+
+        if ($user->user_type == 'customer') {
+            $data = User::find($user->id)
+            ->load(['customer', 'interests'])->find($user->id);
+        }
+        //if user_type is merchant get user with merchant
+        if ($user->user_type == 'merchant') {
+            $data = User::find($user->id)
+            ->load(['thumbnails', 'merchant.reviews.user.customer', 'merchant.user.workschedules'])->find($user->id);
+        }
+
         $user_type = $user->user_type;
 
         return response()->json([

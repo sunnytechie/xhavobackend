@@ -37,13 +37,17 @@ class LoginController extends Controller
         $user->remember_token = $token;
         $user->save();
 
+        $user = User::find($user->id);
+
         //if user user_type is customer get user with customer
         if ($user->user_type == 'customer') {
-            $user = User::with('customer')->find($user->id);
+            $data = User::find($user->id)
+            ->load(['customer', 'interests'])->find($user->id);
         }
         //if user_type is merchant get user with merchant
         if ($user->user_type == 'merchant') {
-            $user = User::with('merchant')->find($user->id);
+            $data = User::find($user->id)
+            ->load(['thumbnails', 'merchant.reviews.user.customer', 'merchant.user.workschedules'])->find($user->id);
         }
 
         switch ($user->user_type) {
@@ -71,6 +75,7 @@ class LoginController extends Controller
                 'message' => 'Please verify your email.',
                 'user_type' => $user_type,
                 'user' => $user,
+                'data' => $data,
                 'token' => $token,
             ], 401);
         }
