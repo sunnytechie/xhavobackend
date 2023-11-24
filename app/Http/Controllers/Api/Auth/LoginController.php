@@ -83,7 +83,7 @@ class LoginController extends Controller
         return response()->json([
             'status' => true,
             'user_type' => $user_type,
-            'user' => $user,
+            'user' => $data,
             'token' => $token,
         ]);
     }
