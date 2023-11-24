@@ -22,12 +22,12 @@ class UserController extends Controller
 
         if ($user->user_type == 'customer') {
             $data = User::find($user->id)
-            ->load(['customer', 'interests'])->find($user->id);
+            ->with(['customer', 'interests'])->find($user->id);
         }
         //if user_type is merchant get user with merchant
         if ($user->user_type == 'merchant') {
             $data = User::find($user->id)
-            ->load(['thumbnails', 'merchant.reviews.user.customer', 'merchant.user.workschedules'])->find($user->id);
+            ->with(['thumbnails', 'merchant.reviews.user.customer', 'merchant.user.workschedules'])->find($user->id);
         }
 
         $user_type = $user->user_type;
