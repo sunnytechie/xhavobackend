@@ -69,13 +69,24 @@ class BookingController extends Controller
 
         $currentYear = date('Y');
 
-        // Fetch monthly bookings
+        // Fetch monthly bookings for the current year
         $monthlyBookings = Booking::where('user_id', $user_id)
-            ->whereYear('created_at', $currentYear)
-            ->selectRaw('MONTH(created_at) as period, COUNT(*) as booking_count')
-            ->groupBy('period')
-            ->orderBy('period')
-            ->get();
+        ->whereYear('created_at', $currentYear)
+        ->selectRaw('MONTH(created_at) as period, COUNT(*) as booking_count')
+        ->groupBy('period')
+        ->orderBy('period')
+        ->get();
+
+        // Create an array with all months of the year
+        $monthsInYear = range(1, 12);
+
+        // Fill in missing months with zero bookings
+        $monthlyBookings = collect($monthlyBookings)->mapWithKeys(function ($item) {
+        return [$item->period => $item->booking_count];
+        })->toArray();
+
+        $monthlyBookings = array_replace(array_fill_keys($monthsInYear, 0), $monthlyBookings);
+
 
         // Fetch daily bookings for the current month
         $dailyBookings = Booking::where('user_id', $user_id)
