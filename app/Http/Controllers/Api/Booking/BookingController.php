@@ -77,22 +77,59 @@ class BookingController extends Controller
             ->orderBy('period')
             ->get();
 
-        // Fetch daily bookings
+        // Fetch daily bookings for the current month
         $dailyBookings = Booking::where('user_id', $user_id)
             ->whereYear('created_at', $currentYear)
-            ->selectRaw('DATE(created_at) as period, COUNT(*) as booking_count')
+            ->whereMonth('created_at', date('m'))
+            ->selectRaw('DAY(created_at) as period, COUNT(*) as booking_count')
             ->groupBy('period')
             ->orderBy('period')
             ->get();
 
-        return response()->json([
-            'status' => true,
-            'message' => 'January to December booking Chart',
-            'data' => [
-                'monthly' => $monthlyBookings,
-                'daily' => $dailyBookings,
-            ],
-        ]);
+            // Create an array with all days of the current month
+            $daysInMonth = range(1, date('t', strtotime(date('Y-m'))));
+
+            // Fill in missing days with zero bookings
+            $dailyBookings = collect($dailyBookings)->mapWithKeys(function ($item) {
+                return [$item->period => $item->booking_count];
+            })->toArray();
+
+            $dailyBookings = array_replace(array_fill_keys($daysInMonth, 0), $dailyBookings);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'January to December booking Chart',
+                'data' => [
+                    'monthly' => $monthlyBookings,
+                    'daily' => $dailyBookings,
+                ],
+            ]);
+
+
+        // Fetch monthly bookings
+        //$monthlyBookings = Booking::where('user_id', $user_id)
+        //    ->whereYear('created_at', $currentYear)
+        //    ->selectRaw('MONTH(created_at) as period, COUNT(*) as booking_count')
+        //    ->groupBy('period')
+        //    ->orderBy('period')
+        //    ->get();
+
+        // Fetch daily bookings
+        //$dailyBookings = Booking::where('user_id', $user_id)
+        //    ->whereYear('created_at', $currentYear)
+        //    ->selectRaw('DATE(created_at) as period, COUNT(*) as booking_count')
+        //    ->groupBy('period')
+        //    ->orderBy('period')
+        //    ->get();
+
+        //return response()->json([
+        //    'status' => true,
+        //    'message' => 'January to December booking Chart',
+        //    'data' => [
+        //        'monthly' => $monthlyBookings,
+        //        'daily' => $dailyBookings,
+        //    ],
+        //]);
 
     }
 
