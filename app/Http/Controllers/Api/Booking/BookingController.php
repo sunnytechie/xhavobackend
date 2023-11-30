@@ -59,20 +59,41 @@ class BookingController extends Controller
             ]);
         }
 
+        //$currentYear = date('Y');
+        //$monthlyBookings = Booking::where('user_id', $user_id)
+        //    ->whereYear('created_at', $currentYear)
+        //    ->selectRaw('MONTH(created_at) as month, COUNT(*) as booking_count')
+        //    ->groupBy('month')
+        //    ->orderBy('month')
+        //    ->get();
+
         $currentYear = date('Y');
+
+        // Fetch monthly bookings
         $monthlyBookings = Booking::where('user_id', $user_id)
             ->whereYear('created_at', $currentYear)
-            ->selectRaw('MONTH(created_at) as month, COUNT(*) as booking_count')
-            ->groupBy('month')
-            ->orderBy('month')
+            ->selectRaw('MONTH(created_at) as period, COUNT(*) as booking_count')
+            ->groupBy('period')
+            ->orderBy('period')
             ->get();
 
-        // Now you have an array of monthly bookings for the user in the current year
+        // Fetch daily bookings
+        $dailyBookings = Booking::where('user_id', $user_id)
+            ->whereYear('created_at', $currentYear)
+            ->selectRaw('DATE(created_at) as period, COUNT(*) as booking_count')
+            ->groupBy('period')
+            ->orderBy('period')
+            ->get();
+
         return response()->json([
             'status' => true,
             'message' => 'January to December booking Chart',
-            'data' => $monthlyBookings,
+            'data' => [
+                'monthly' => $monthlyBookings,
+                'daily' => $dailyBookings,
+            ],
         ]);
+
     }
 
     //get all accepted bookings with user id
@@ -112,6 +133,95 @@ class BookingController extends Controller
             'data' => $bookings,
         ]);
     }
+
+
+
+    public function acceptedMerchantBookings($user_id)
+    {
+        $user = User::find($user_id);
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found.',
+            ]);
+        }
+
+        $merchant = Merchant::where('user_id', $user_id)->first();
+        if (!$merchant) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Not a merchant.',
+            ]);
+        }
+
+        $bookings = Booking::with('user')->where('merchant_id', $merchant->id)->where('booking_status', 'accepted')->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Your accepted bookings',
+            'data' => $bookings,
+        ]);
+    }
+
+
+    public function rejectedMerchantBookings($user_id)
+    {
+        $user = User::find($user_id);
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found.',
+            ]);
+        }
+
+        $merchant = Merchant::where('user_id', $user_id)->first();
+        if (!$merchant) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Not a merchant.',
+            ]);
+        }
+
+        $bookings = Booking::with('user')->where('merchant_id', $merchant->id)->where('user_id', $user_id)->where('booking_status', 'rejected')->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'User rejected bookings',
+            'data' => $bookings,
+        ]);
+    }
+
+
+    public function completedMerchantBookings($user_id)
+    {
+        $user = User::find($user_id);
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found.',
+            ]);
+        }
+
+        $merchant = Merchant::where('user_id', $user_id)->first();
+        if (!$merchant) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Not a merchant.',
+            ]);
+        }
+
+        $bookings = Booking::with('user')->where('merchant_id', $merchant->id)->where('user_id', $user_id)->where('booking_status', 'completed')->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'User completed bookings',
+            'data' => $bookings,
+        ]);
+    }
+
+
+
+
 
     //get all current user accepted bookings
     public function acceptedBookings(Request $request)
