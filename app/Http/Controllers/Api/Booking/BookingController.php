@@ -59,6 +59,14 @@ class BookingController extends Controller
             ]);
         }
 
+        $merchant = Merchant::where('user_id', $user_id)->first();
+        if (!$merchant) {
+            return response()->json([
+                'status' => false,
+                'message' => "User is not a merchant",
+            ]);
+        }
+
         //$currentYear = date('Y');
         //$monthlyBookings = Booking::where('user_id', $user_id)
         //    ->whereYear('created_at', $currentYear)
@@ -70,7 +78,7 @@ class BookingController extends Controller
         $currentYear = date('Y');
 
         // Fetch monthly bookings for the current year
-        $monthlyBookings = Booking::where('user_id', $user_id)
+        $monthlyBookings = Booking::where('merchant_id', $merchant->id)
         ->whereYear('created_at', $currentYear)
         ->selectRaw('MONTH(created_at) as period, COUNT(*) as booking_count')
         ->groupBy('period')
@@ -89,7 +97,7 @@ class BookingController extends Controller
 
 
         // Fetch daily bookings for the current month
-        $dailyBookings = Booking::where('user_id', $user_id)
+        $dailyBookings = Booking::where('merchant_id', $merchant->id)
             ->whereYear('created_at', $currentYear)
             ->whereMonth('created_at', date('m'))
             ->selectRaw('DAY(created_at) as period, COUNT(*) as booking_count')
