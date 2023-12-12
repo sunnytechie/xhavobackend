@@ -21,7 +21,7 @@ class SavedmerchantController extends Controller
             ]);
         }
 
-        $savedmerchants = SavedMerchant::with(['merchant.category', 'merchant.user.thumbnails', 'merchant.user.workschedules', 'merchant.user.reviews'])
+        $savedmerchants = SavedMerchant::with(['merchant.category', 'merchant.user.thumbnails', 'merchant.reviews.user.customer', 'merchant.user.workschedules'])
             ->orderBy('id', 'desc')
             ->where('user_id', $user_id)
             ->get();
