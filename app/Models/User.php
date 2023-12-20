@@ -28,6 +28,7 @@ class User extends Authenticatable
         'identity',
         'identity_image',
         'identity_number',
+        'referrer_id',
         'remember_token',
     ];
 
@@ -95,6 +96,49 @@ class User extends Authenticatable
     {
         return $this->hasOne(Customer::class);
     }
+
+    //has many relationship with payment
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    //has many relationship with banks
+    public function banks()
+    {
+        return $this->hasMany(Bank::class);
+    }
+
+    //has many relationship with earnings
+    public function earning()
+    {
+        return $this->hasOne(Earning::class);
+    }
+
+    //has many relationship with earninghistory
+    public function earninghistories()
+    {
+        return $this->hasMany(Earninghistory::class);
+    }
+
+    //has one stash
+    public function stash()
+    {
+        return $this->hasOne(Stash::class);
+    }
+
+    //has many relationship with stashhistory
+    public function stashhistories()
+    {
+        return $this->hasMany(Stashhistory::class);
+    }
+
+    //has many relationship with withdrawal
+    public function withdrawals()
+    {
+        return $this->hasMany(Withdrawal::class);
+    }
+
 
     /**
      * The attributes that should be hidden for serialization.

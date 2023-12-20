@@ -138,6 +138,27 @@ Route::get('/merchant/dashboard/{user_id}', [App\Http\Controllers\Api\Dashboard\
 
 Route::post('/auth/logout/user/{user_id}', [App\Http\Controllers\Api\Auth\LogOutController::class, 'logout']);
 
+
+//referral page
+Route::get('/referral/{user_id}', [App\Http\Controllers\Api\Pages\AffiliateController::class, 'index']);
+
+//payment
+Route::post('booking/payment', [App\Http\Controllers\Api\Payment\BookingController::class, 'createPayment']);
+Route::post('booking/payment/verify', [App\Http\Controllers\Api\Payment\BookingController::class, 'verifyPayment']);
+
+
+//wallet
+Route::get('/stash/{user_id}', [App\Http\Controllers\Api\Stash\StashController::class, 'index']);
+Route::post('/stash/fund/{user_id}', [App\Http\Controllers\Api\Stash\StashController::class, 'store']);
+
+//withdrawal
+Route::post('/withdrawal/{user_id}', [App\Http\Controllers\Api\Stash\WithdrawalController::class, 'store']);
+Route::post('/withdrawal/verify/{user_id}', [App\Http\Controllers\Api\Stash\WithdrawalController::class, 'verifyWithdrawal']);
+
+//bank
+Route::get('/bank/{user_id}', [App\Http\Controllers\Api\Stash\BankController::class, 'index']);
+Route::post('/bank/{user_id}', [App\Http\Controllers\Api\Stash\BankController::class, 'store']);
+Route::delete('/bank/{bank_id}', [App\Http\Controllers\Api\Stash\BankController::class, 'delete']);
 });
 ##########################
 

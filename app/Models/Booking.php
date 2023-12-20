@@ -7,7 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Booking extends Model
 {
-    protected $table = 'bookings';
+    protected $fillable = [
+        'user_id',
+        'merchant_id',
+        'booking_date',
+        'booking_time',
+        'booking_status',
+        'payment_status',
+        'method_of_identity',
+        'identity_image',
+        'identity_number',
+    ];
     use HasFactory;
 
     //has many relationship with merchant and users
@@ -19,6 +29,12 @@ class Booking extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    //has many relationship with payment
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
     }
 
     //has many relationship with notification

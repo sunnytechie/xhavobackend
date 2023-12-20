@@ -9,6 +9,7 @@ use App\Models\Interest;
 use App\Models\Workschedule;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Referrer;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
@@ -20,6 +21,7 @@ class RegisterController extends Controller
             ////'phone' => 'required|unique:users',
             'email' => 'required|unique:users',
             'password' => 'required|min:6',
+            'referrer' => 'nullable',
         ]);
 
         if ($validator->fails()) {
@@ -29,9 +31,21 @@ class RegisterController extends Controller
             ], 422);
         }
 
+        //check if referrer exists
+        if ($request->has('referrer')) {
+            $referrer = Referrer::where('code', $request->referrer)->first();
+            if (!$referrer) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Referrer not found',
+                ], 404);
+            }
+        }
+
         $user = new User();
         ////$user->phone = $request->phone;
         $user->email = $request->email;
+        $user->referrer_id = $referrer->id ?? null;
         $user->password = bcrypt($request->password);
         $user->save();
 
@@ -67,6 +81,7 @@ class RegisterController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|unique:users',
             'password' => 'required|min:6',
+            'referrer' => 'nullable',
         ]);
 
         if ($validator->fails()) {
@@ -76,8 +91,20 @@ class RegisterController extends Controller
             ], 422);
         }
 
+        //check if referrer exists
+        if ($request->has('referrer')) {
+            $referrer = Referrer::where('code', $request->referrer)->first();
+            if (!$referrer) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Referrer not found',
+                ], 404);
+            }
+        }
+
         $user = new User();
         $user->email = $request->email;
+        $user->referrer_id = $referrer->id ?? null;
         $user->password = bcrypt($request->password);
         $user->user_type = 'merchant';
         $user->save();
