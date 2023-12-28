@@ -158,7 +158,7 @@ Route::post('/withdrawal/verify/{user_id}', [App\Http\Controllers\Api\Stash\With
 //bank
 Route::get('/bank/{user_id}', [App\Http\Controllers\Api\Stash\BankController::class, 'index']);
 Route::post('/bank/{user_id}', [App\Http\Controllers\Api\Stash\BankController::class, 'store']);
-Route::delete('/bank/{bank_id}', [App\Http\Controllers\Api\Stash\BankController::class, 'delete']);
+Route::delete('/bank/{user_id}/{bank_id}', [App\Http\Controllers\Api\Stash\BankController::class, 'delete']);
 });
 ##########################
 

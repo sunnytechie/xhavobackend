@@ -28,7 +28,7 @@ class BankController extends Controller
             'data' => $banks
         ], 200);
     }
-    
+
     public function store(Request $request)
     {
         //validate request
@@ -63,7 +63,7 @@ class BankController extends Controller
 
     }
 
-    public function delete($id)
+    public function delete($user_id, $id)
     {
         //get bank
         $bank = Bank::find($id);
