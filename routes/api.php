@@ -52,8 +52,6 @@ Route::post('/filter', [App\Http\Controllers\Api\ScoutSearch\SearchController::c
 });
 
 
-
-
 ###########################
 Route::middleware('token')->group(function () {
 //customer register
