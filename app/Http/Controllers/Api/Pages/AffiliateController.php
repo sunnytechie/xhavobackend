@@ -52,6 +52,12 @@ class AffiliateController extends Controller
         //get all users that have this user as their referrer
         $referrals = User::select('name', 'email', 'created_at')->where('referrer_id', $referrer->id)->get();
 
+        foreach ($referrals as $referral) {
+            if ($referral->name == null) {
+                $referral->name = 'Customer';
+            }
+        }
+
         //return response
         return response()->json([
             'status' => true,
