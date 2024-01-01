@@ -45,9 +45,9 @@ class AffiliateController extends Controller
             ]);
         }
 
-        $referrer = Referrer::select('code',)->where('user_id', $user_id)->first();
+        $referrer = Referrer::select('code', 'id')->where('user_id', $user_id)->first();
 
-        dd($referrer);
+        //dd($referrer);
 
         //get all users that have this user as their referrer
         $referrals = User::select('name', 'email', 'created_at')->where('referrer_id', $referrer->id)->get();
