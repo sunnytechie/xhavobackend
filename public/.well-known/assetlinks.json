@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.example.xhavo",
+      "sha256_cert_fingerprints": [
+        "39:95:2E:4D:D8:62:C2:44:62:98:82:C4:15:89:16:EA:2A:4F:E3:17:76:B1:CF:C1:EE:CB:9F:4D:3A:59:F6:F2"
+      ]
+    }
+  }
+]

@@ -214,6 +214,8 @@ class BookingController extends Controller
         $payment->amount = $request->amount;
         $payment->save();
 
+        //Check if user has a referral
+
         //update booking status to paid
         $booking->update([
             'payment_status' => 'paid'
