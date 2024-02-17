@@ -32,6 +32,8 @@ class MyToken
         //token user remember_token
         $token = $user->remember_token;
 
+        //dd($token, $request->header('Authorization'));
+
         if ($request->header('Authorization') !== $token) {
             return response()->json([
                 'status' => false,

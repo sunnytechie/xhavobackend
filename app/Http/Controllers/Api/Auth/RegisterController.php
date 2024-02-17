@@ -34,11 +34,11 @@ class RegisterController extends Controller
         //check if referrer exists
         if ($request->has('referrer')) {
             $referrer = Referrer::where('code', $request->referrer)->first();
-            if (!$referrer) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Referrer not found',
-                ], 404);
+            if ($referrer) {
+                //return response()->json([
+                //    'status' => false,
+                //    'message' => 'Referrer not found',
+                //], 404);
             }
         }
 
@@ -167,7 +167,12 @@ class RegisterController extends Controller
             ], 422);
         }
 
-        if ($request->has('categories')) {
+        if (!$request->has('categories') || !$request->filled('categories')) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Please select at least one category',
+            ], 422);
+        } else {
             $categories = json_decode($request->categories);
 
             foreach ($categories as $category) {
@@ -177,6 +182,7 @@ class RegisterController extends Controller
                 $interest->save();
             }
         }
+
 
         $user = User::find($user_id);
         $user->state = $request->state;
