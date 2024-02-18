@@ -22,6 +22,19 @@
   <title>Authentication</title>
   <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/xhavo_favicon.png') }}" />
   <link rel="stylesheet" href="{{ asset('assets/css/styles.min.css') }}" />
+  <style>
+    input[type="email"], input[type="password"] {
+      border: 1px solid #ced4da;
+      border-radius: 0 !important;
+      padding: 0.375rem 0.75rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+  </style>
 </head>
 
 <body>
