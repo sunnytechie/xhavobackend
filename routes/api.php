@@ -157,6 +157,11 @@ Route::post('/withdrawal/verify/{user_id}', [App\Http\Controllers\Api\Stash\With
 Route::get('/bank/{user_id}', [App\Http\Controllers\Api\Stash\BankController::class, 'index']);
 Route::post('/bank/{user_id}', [App\Http\Controllers\Api\Stash\BankController::class, 'store']);
 Route::delete('/bank/{user_id}/{bank_id}', [App\Http\Controllers\Api\Stash\BankController::class, 'delete']);
+
+//flutterwave payment account
+Route::post('/stash/account/funding', [App\Http\Controllers\Api\Stash\StashController::class, 'topUp']);
+
+
 });
 ##########################
 

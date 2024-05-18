@@ -10,7 +10,6 @@ class Stash extends Model
     protected $fillable = [
         'user_id',
         'amount',
-        'status',
     ];
 
     use HasFactory;

@@ -124,4 +124,73 @@ class StashController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function topUp(Request $request) {
+        // Retrieve the webhook event data
+        //$event = $request->input('event');
+
+        $payload = json_decode($request->getContent());
+        try {
+
+            // Handle the event (e.g., 'charge.completed')
+            if ($payload->event === 'charge.completed') {
+                $charged_amount = $payload->data->charged_amount;
+                $email = $payload->data->customer->email;
+                $tx_ref = $payload->data->tx_ref;
+                $currency = $payload->data->currency;
+
+                $user = User::where('email', $email)->first();
+
+                if ($user) {
+
+                    $this->topUpStash($user->id, $charged_amount, $tx_ref, $currency);
+
+                    return response()->json([
+                        'message' => 'Webhook handled'
+                    ], 200);
+                }
+
+            }
+
+        } catch (\Throwable $th) {
+
+            // If the event is not recognized, respond with a 400 status code
+            return response()->json([
+                'message' => 'Event not handled'
+            ], 400);
+
+        }
+    }
+
+
+    private function topUpStash($id, $amount, $tx_ref, $currency) {
+        $stash = Stash::where('user_id', $id)->first();
+
+        if(!$stash) {
+            $stash = new Stash();
+            $stash->user_id = $id;
+        }
+
+        $stash->amount += $amount;
+        $stash->update();
+
+        //Stash history
+        $fund = new Fund();
+        $fund->user_id = $id;
+        $fund->amount = $amount;
+        $fund->tx_ref = $tx_ref;
+        $fund->tx_currency = $currency;
+        $fund->save();
+
+        //create stash history
+        $stashHistory = new Stashhistory();
+        $stashHistory->user_id = $id;
+        $stashHistory->amount = $amount;
+        $stashHistory->title = 'Stash funding';
+        $stashHistory->type = 'fund';
+        $stashHistory->status = 'completed';
+        $stashHistory->save();
+
+        return;
+    }
 }
