@@ -25,24 +25,26 @@ class AccountController extends Controller
             'birthday' => 'required',
         ]);
 
+        $user = User::find($user_id);
         //save image in storage
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $image_name = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images/profile'), $image_name);
+            $image->storeAs('public/images/profile', $image_name); // Store the image in the 'public' disk
+            $image_url = asset('storage/images/profile/' . $image_name); // Generate the URL using the asset() helper
         } else {
-            $image_name = "user-default.png";
+            if ($user->customer->image == null) {
+                $image_url = "https://xhavo.app/assets/images/profile/user-default.png";
+            }
         }
 
-        //find user with user id
-        $user = User::find($user_id);
         $user->name = $request->name;
         //$user->email = $request->email;
         $user->save();
 
         //find customer with user id
         $customer = Customer::where('user_id', $user_id)->first();
-        $customer->image = $image_name;
+        $customer->image = $image_url;
         $customer->name = $request->name;
         $customer->phone = $request->phone;
         $customer->gender = $request->gender;
@@ -51,7 +53,6 @@ class AccountController extends Controller
 
         //find user with customer with user id
         $user = User::with('customer')->find($user_id);
-
 
         return response()->json([
             'status' => true,

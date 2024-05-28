@@ -130,7 +130,7 @@ class User extends Authenticatable
     //has many relationship with stashhistory
     public function stashhistories()
     {
-        return $this->hasMany(Stashhistory::class);
+        return $this->hasMany(Stashhistory::class)->orderBy('created_at', 'desc');
     }
 
     //has many relationship with withdrawal
