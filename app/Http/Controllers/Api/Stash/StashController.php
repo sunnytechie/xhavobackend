@@ -130,6 +130,7 @@ class StashController extends Controller
         //$event = $request->input('event');
 
         $payload = json_decode($request->getContent());
+
         try {
 
             // Handle the event (e.g., 'charge.completed')
@@ -166,6 +167,13 @@ class StashController extends Controller
     private function topUpStash($id, $amount, $tx_ref, $currency) {
         $stash = Stash::where('user_id', $id)->first();
 
+        $checkDuplicates = Stashhistory::where('tx_ref', $tx_ref)
+                        ->where('status', 'completed')
+                        ->first();
+        if ($checkDuplicates) {
+            return;
+        }
+
         if(!$stash) {
             $stash = new Stash();
             $stash->user_id = $id;
@@ -189,6 +197,7 @@ class StashController extends Controller
         $stashHistory->title = 'Stash funding';
         $stashHistory->type = 'fund';
         $stashHistory->status = 'completed';
+        $stashHistory->tx_ref = $tx_ref;
         $stashHistory->save();
 
         return;

@@ -158,13 +158,11 @@ Route::get('/bank/{user_id}', [App\Http\Controllers\Api\Stash\BankController::cl
 Route::post('/bank/{user_id}', [App\Http\Controllers\Api\Stash\BankController::class, 'store']);
 Route::delete('/bank/{user_id}/{bank_id}', [App\Http\Controllers\Api\Stash\BankController::class, 'delete']);
 
-//flutterwave payment account
-Route::post('/stash/account/funding', [App\Http\Controllers\Api\Stash\StashController::class, 'topUp']);
-
-
 });
 ##########################
 
+//flutterwave payment webhook
+Route::post('/stash/account/funding', [App\Http\Controllers\Api\Stash\StashController::class, 'topUp']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
