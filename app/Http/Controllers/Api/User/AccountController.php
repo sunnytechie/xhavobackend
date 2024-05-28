@@ -15,6 +15,7 @@ class AccountController extends Controller
     //account update
     public function update(Request $request, $user_id)
     {
+
         //validate request
         $request->validate([
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -25,6 +26,8 @@ class AccountController extends Controller
             'birthday' => 'required',
         ]);
 
+
+
         $user = User::find($user_id);
         //save image in storage
         if ($request->hasFile('image')) {
@@ -33,9 +36,18 @@ class AccountController extends Controller
             $image->storeAs('public/images/profile', $image_name); // Store the image in the 'public' disk
             $image_url = asset('storage/images/profile/' . $image_name); // Generate the URL using the asset() helper
         } else {
-            if ($user->customer->image == null) {
-                $image_url = "https://xhavo.app/assets/images/profile/user-default.png";
+            if ($user->customer) {
+                if ($user->customer->image == null) {
+                    $image_url = "https://xhavo.app/assets/images/profile/user-default.png";
+                }
             }
+
+            //if ($user->merchant) {
+            //    if ($user->customer->image == null) {
+            //      $image_url = "https://xhavo.app/assets/images/profile/user-default.png";
+            //    }
+            //}
+
         }
 
         $user->name = $request->name;
@@ -43,13 +55,15 @@ class AccountController extends Controller
         $user->save();
 
         //find customer with user id
-        $customer = Customer::where('user_id', $user_id)->first();
-        $customer->image = $image_url;
-        $customer->name = $request->name;
-        $customer->phone = $request->phone;
-        $customer->gender = $request->gender;
-        $customer->birthday = $request->birthday;
-        $customer->save();
+        if ($user->customer) {
+            $customer = Customer::where('user_id', $user_id)->first();
+            if (isset($image_url)) $customer->image = $image_url;
+            $customer->name = $request->name;
+            $customer->phone = $request->phone;
+            $customer->gender = $request->gender;
+            $customer->birthday = $request->birthday;
+            $customer->save();
+        }
 
         //find user with customer with user id
         $user = User::with('customer')->find($user_id);
