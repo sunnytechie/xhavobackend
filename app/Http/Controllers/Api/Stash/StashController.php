@@ -147,7 +147,8 @@ class StashController extends Controller
                     $this->topUpStash($user->id, $charged_amount, $tx_ref, $currency);
 
                     return response()->json([
-                        'message' => 'Webhook handled'
+                        'status'=> true,
+                        'message' => 'Success'
                     ], 200);
                 }
 
@@ -157,7 +158,8 @@ class StashController extends Controller
 
             // If the event is not recognized, respond with a 400 status code
             return response()->json([
-                'message' => 'Event not handled'
+                'status'=> false,
+                'message' => 'Failed'
             ], 400);
 
         }
