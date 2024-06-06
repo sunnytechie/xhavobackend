@@ -135,7 +135,7 @@ class StashController extends Controller
 
             // Handle the event (e.g., 'charge.completed')
             if ($payload->event === 'charge.completed') {
-                $charged_amount = $payload->data->charged_amount;
+                $amount = $payload->data->amount;
                 $email = $payload->data->customer->email;
                 $tx_ref = $payload->data->tx_ref;
                 $currency = $payload->data->currency;
@@ -144,7 +144,7 @@ class StashController extends Controller
 
                 if ($user) {
 
-                    $this->topUpStash($user->id, $charged_amount, $tx_ref, $currency);
+                    $this->topUpStash($user->id, $amount, $tx_ref, $currency);
 
                     return response()->json([
                         'status'=> true,
@@ -167,7 +167,13 @@ class StashController extends Controller
 
 
     private function topUpStash($id, $amount, $tx_ref, $currency) {
-        $stash = Stash::where('user_id', $id)->first();
+        $stash = Stash::where('user_id', $id)->lockForUpdate()->first();
+
+        if (!$stash) {
+            $stash = new Stash();
+            $stash->user_id = $id;
+            $stash->save();
+        }
 
         $checkDuplicates = Stashhistory::where('tx_ref', $tx_ref)
                         ->where('status', 'completed')
@@ -176,13 +182,8 @@ class StashController extends Controller
             return;
         }
 
-        if(!$stash) {
-            $stash = new Stash();
-            $stash->user_id = $id;
-        }
-
         $stash->amount += $amount;
-        $stash->update();
+        $stash->save();
 
         //Stash history
         $fund = new Fund();
