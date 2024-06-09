@@ -27,29 +27,47 @@ class SearchController extends Controller
 
     //filter by category and location
     public function filter(Request $request) {
-        $location = $request->input('location');
+        try {
+            $location = $request->input('location');
 
-        if ($request->has('categories')) {
-            $categories = json_decode($request->categories);
+            if ($request->has('categories')) {
+                $categories = json_decode($request->categories);
 
-            if (!empty($categories)) {
-                $merchants = Merchant::with(['user', 'reviews.user.customer', 'user.thumbnails', 'user.workschedules'])
-                    ->whereIn('category_id', $categories)
-                    ->where('location', $location)
-                    ->get();
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    // Handle JSON decoding error
+                    return response()->json(['error' => 'Invalid JSON format for categories'], 400);
+                }
+
+                if (!empty($categories)) {
+                    $query = Merchant::with(['user', 'reviews.user.customer', 'user.thumbnails', 'user.workschedules'])
+                        ->whereIn('category_id', $categories);
+
+                    if ($location) {
+                        $query->where('location', $location);
+                    }
+
+                    $merchants = $query->get();
+                } else {
+                    // Handle the case where categories is an empty array
+                    $merchants = Merchant::with(['user', 'reviews.user.customer', 'user.thumbnails', 'user.workschedules'])->get();
+                }
             } else {
-                // Handle the case where no categories are provided
+                // Handle the case where categories is not provided
                 $merchants = Merchant::with(['user', 'reviews.user.customer', 'user.thumbnails', 'user.workschedules'])->get();
             }
-        } else {
-            // Handle the case where no categories parameter is present in the request
-            $merchants = Merchant::with(['user', 'reviews.user.customer', 'user.thumbnails', 'user.workschedules'])->get();
+
+            return response()->json([
+                'status' => true,
+                'merchants' => $merchants,
+            ], 200);
+
+        } catch (\Throwable $th) {
+
+            return response()->json([
+                'status' => false,
+                'merchants' => null,
+            ], 200);
+            
         }
-
-
-        return response()->json([
-            'status' => true,
-            'merchants' => $merchants,
-        ], 200);
     }
 }
