@@ -35,15 +35,22 @@ class SearchController extends Controller
 
                 if (json_last_error() !== JSON_ERROR_NONE) {
                     // Handle JSON decoding error
-                    return response()->json(['error' => 'Invalid JSON format for categories'], 400);
+                    return response()->json([
+                        'status' => false,
+                        'merchants' => null,
+                    ], 400);
                 }
 
                 if (!empty($categories)) {
                     $query = Merchant::with(['user', 'reviews.user.customer', 'user.thumbnails', 'user.workschedules'])
                         ->whereIn('category_id', $categories);
 
+                    //if ($location) {
+                    //    $query->where('location', $location);
+                    //}
+
                     if ($location) {
-                        $query->where('location', $location);
+                        $query->whereIn('id', Merchant::search($location)->get()->pluck('id'));
                     }
 
                     $merchants = $query->get();
@@ -66,8 +73,8 @@ class SearchController extends Controller
             return response()->json([
                 'status' => false,
                 'merchants' => null,
-            ], 200);
-            
+            ], 400);
+
         }
     }
 }
