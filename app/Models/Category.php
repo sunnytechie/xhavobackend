@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class Category extends Model
 {
     protected $table = 'categories';
 
-    use HasFactory;
+    use HasFactory, Searchable;
 
     //has many users
     public function users()
@@ -27,5 +29,17 @@ class Category extends Model
     public function interest()
     {
         return $this->belongsTo(Interest::class);
+    }
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        unset($array['created_at, updated_at']);
+
+        return  [
+            'id' => $this->id,
+            'title' => $this->title,
+        ];
     }
 }

@@ -8,10 +8,9 @@ use Laravel\Scout\Searchable;
 
 class Merchant extends Model
 {
-    use Searchable;
+    use Searchable, HasFactory;
 
     protected $table = 'merchants';
-    use HasFactory;
 
     //one to one relationship with user
     public function user()
