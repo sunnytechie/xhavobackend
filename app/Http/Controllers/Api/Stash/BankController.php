@@ -6,9 +6,17 @@ use App\Models\Bank;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\BankService;
 
 class BankController extends Controller
 {
+    protected $bankList;
+
+    public function __construct (BankService $bankList)
+    {
+        $this->bankList = $bankList;
+    }
+
     public function index($user_id)
     {
         //get user
@@ -29,6 +37,17 @@ class BankController extends Controller
         ], 200);
     }
 
+    public function banks() {
+        $banks = $this->bankList->bankListing();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Bank accounts retrieved successfully',
+            'data' => $banks
+        ], 200);
+
+    }
+
     public function store(Request $request)
     {
         //validate request
@@ -37,6 +56,7 @@ class BankController extends Controller
             'bank_name' => 'required|string',
             'account_name' => 'required|string',
             'account_number' => 'required|string',
+            'bank_code' => 'required|string',
         ]);
 
         //get user
@@ -53,6 +73,7 @@ class BankController extends Controller
         $bank->bank_name = $request->bank_name;
         $bank->account_name = $request->account_name;
         $bank->account_number = $request->account_number;
+        $bank->bank_code = $request->bank_code;
         $bank->save();
 
         return response()->json([

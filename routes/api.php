@@ -150,13 +150,18 @@ Route::get('/stash/{user_id}', [App\Http\Controllers\Api\Stash\StashController::
 Route::post('/stash/fund/{user_id}', [App\Http\Controllers\Api\Stash\StashController::class, 'store']);
 
 //withdrawal
-Route::post('/withdrawal/{user_id}', [App\Http\Controllers\Api\Stash\WithdrawalController::class, 'store']);
-Route::post('/withdrawal/verify/{user_id}', [App\Http\Controllers\Api\Stash\WithdrawalController::class, 'verifyWithdrawal']);
+Route::prefix('withdrawal')->group(function () {
+    Route::post('/{user_id}', [App\Http\Controllers\Api\Stash\WithdrawalController::class, 'store']);
+    Route::post('/verify/{user_id}', [App\Http\Controllers\Api\Stash\WithdrawalController::class, 'verifyWithdrawal']);
+});
 
 //bank
-Route::get('/bank/{user_id}', [App\Http\Controllers\Api\Stash\BankController::class, 'index']);
-Route::post('/bank/{user_id}', [App\Http\Controllers\Api\Stash\BankController::class, 'store']);
-Route::delete('/bank/{user_id}/{bank_id}', [App\Http\Controllers\Api\Stash\BankController::class, 'delete']);
+Route::prefix('bank')->group(function () {
+    Route::get('/list', [App\Http\Controllers\Api\Stash\BankController::class, 'banks']);
+    Route::get('/{user_id}', [App\Http\Controllers\Api\Stash\BankController::class, 'index']);
+    Route::post('/{user_id}', [App\Http\Controllers\Api\Stash\BankController::class, 'store']);
+    Route::delete('/{user_id}/{bank_id}', [App\Http\Controllers\Api\Stash\BankController::class, 'delete']);
+});
 
 });
 ##########################

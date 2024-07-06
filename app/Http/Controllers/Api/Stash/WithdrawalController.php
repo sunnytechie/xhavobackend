@@ -8,10 +8,26 @@ use App\Models\Stashhistory;
 use Illuminate\Http\Request;
 use App\Mail\WithdrawalPinMail;
 use App\Http\Controllers\Controller;
+use App\Models\Bank;
+use App\Models\Withdrawal;
 use Illuminate\Support\Facades\Mail;
+use App\Services\TransferService;
+use App\Services\VerifyTxRefService;
 
 class WithdrawalController extends Controller
 {
+    protected $transferToLocalBank, $verifyTxRefService;
+
+    public function __construct
+        (
+        TransferService $transferToLocalBank,
+        VerifyTxRefService $verifyTxRefService
+        )
+    {
+        $this->transferToLocalBank = $transferToLocalBank;
+        $this->verifyTxRefService = $verifyTxRefService;
+    }
+
     public function store($user_id, Request $request)
     {
         //get user
@@ -79,6 +95,15 @@ class WithdrawalController extends Controller
             ], 404);
         }
 
+        //Find Bank Account else ask user to update bank account
+        $userbank = Bank::where('user_id', $user_id)->first();
+        if (!$userbank) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Update your bank details'
+            ], 404);
+        }
+
         //validate request
         $request->validate([
             'otp' => 'required|numeric',
@@ -123,22 +148,22 @@ class WithdrawalController extends Controller
         //delete otp
         $otp->delete();
 
-        //update stash
-        $stash->amount = $stash->amount - $request->amount;
-        $stash->save();
-
         //create stash history
         $stashHistory = new Stashhistory();
         $stashHistory->user_id = $user->id;
         $stashHistory->amount = $request->amount;
-        $stashHistory->title = 'You withdrew ' . $request->amount . ' from your stash';
+        $stashHistory->title = 'Withdrawal of ' . $request->amount . ' is processing.';
         $stashHistory->status = 'completed';
         $stashHistory->type = 'withdrawal';
         $stashHistory->save();
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Withdrawal successful'
-        ], 200);
+        //Store to Withdrawal table
+        $withdrawal = new Withdrawal();
+        $withdrawal->user_id = $user_id;
+        $withdrawal->amount = $request->amount;
+        $withdrawal->save();
+
+        $this->transferToLocalBank->makeTransfer($withdrawal->id, $user_id, $userbank);
+
     }
 }

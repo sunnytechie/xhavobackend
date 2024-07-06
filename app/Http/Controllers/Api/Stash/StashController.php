@@ -9,9 +9,24 @@ use App\Models\Stashhistory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
+use App\Services\TransferService;
+use App\Services\VerifyTxRefService;
 
 class StashController extends Controller
 {
+
+    protected $transferToLocalBank, $verifyTxRefService;
+
+    public function __construct
+        (
+        TransferService $transferToLocalBank,
+        VerifyTxRefService $verifyTxRefService
+        )
+    {
+        $this->transferToLocalBank = $transferToLocalBank;
+        $this->verifyTxRefService = $verifyTxRefService;
+    }
+
     public function index($user_id)
     {
         //get user
@@ -102,6 +117,7 @@ class StashController extends Controller
         ], 200);
     }
 
+    //Paystack #no used yet
     public function verifyPayment($reference)
     {
         $secretKey = 'YOUR_SECRET_KEY'; // Replace with your actual Paystack secret key
@@ -132,13 +148,20 @@ class StashController extends Controller
         $payload = json_decode($request->getContent());
 
         try {
-
-            // Handle the event (e.g., 'charge.completed')
+            // charge.completed
             if ($payload->event === 'charge.completed') {
                 $amount = $payload->data->amount;
                 $email = $payload->data->customer->email;
                 $tx_ref = $payload->data->tx_ref;
                 $currency = $payload->data->currency;
+
+
+                //Verify Transaction
+                $verify = $this->verifyTxRefService->verifyTransaction($tx_ref);
+                if ($verify == false) {
+                    return;
+                }
+
 
                 $user = User::where('email', $email)->first();
 
