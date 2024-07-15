@@ -68,16 +68,16 @@
                                 <img src="https://xhavo.app{{ $merchant->logo }}" alt="logo" class="thumbnail">
                             </td>
                             <td class="border-bottom-0">
-                                <h6 class="fw-semibold mb-1">{{ $merchant->user->name ?? $merchant->name }}</h6>
+                                <h6 class="fw-semibold mb-1">{{ $merchant->user->name ?? $merchant->name ?? '' }}</h6>
                             </td>
                             <td class="border-bottom-0">
-                                <p class="mb-0 fw-semibold">{{ $merchant->brand_name }}</p>
+                                <p class="mb-0 fw-semibold">{{ $merchant->brand_name ?? '' }}</p>
                             </td>
                             <td class="border-bottom-0">
-                                <p class="mb-0 fw-semibold">{{ $merchant->user->email }}</p>
+                                <p class="mb-0 fw-semibold">{{ $merchant->user->email ?? '' }}</p>
                             </td>
                             <td class="border-bottom-0">
-                                <p class="mb-0 fw-semibold">{{ $merchant->user->phone ?? $merchant->phone }}</p>
+                                <p class="mb-0 fw-semibold">{{ $merchant->user->phone ?? $merchant->phone ?? '' }}</p>
                             </td>
                             <td class="border-bottom-0">
                                 <div class="d-flex">
