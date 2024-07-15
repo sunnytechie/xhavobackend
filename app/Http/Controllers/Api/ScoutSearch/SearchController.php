@@ -50,6 +50,14 @@ class SearchController extends Controller
         try {
             $location = $request->input('location');
 
+            if (!$location) {
+                return response()->json([
+                    'status' => false,
+                    'merchants' => null,
+                    'error' => 'Please enter a location'
+                ], 400);
+            }
+
             if ($request->has('categories')) {
                 $categories = json_decode($request->categories);
 
@@ -69,18 +77,34 @@ class SearchController extends Controller
                     //    $query->where('location', $location);
                     //}
 
-                    if ($location) {
-                        $query->whereIn('id', Merchant::search($location)->get()->pluck('id'));
-                    }
+                    //if ($location) {
+                    //    $query->whereIn('id', Merchant::search($location)->get()->pluck('id'));
+                    //}
+
+                    $query->whereIn('id', Merchant::search($location)->get()->pluck('id'));
 
                     $merchants = $query->get();
                 } else {
+
                     // Handle the case where categories is an empty array
-                    $merchants = Merchant::with(['user', 'reviews.user.customer', 'user.thumbnails', 'user.workschedules'])->get();
+                    return response()->json([
+                        'status' => false,
+                        'merchants' => null,
+                        'error' => 'Select category'
+                    ], 400);
+                    //$merchants = Merchant::with(['user', 'reviews.user.customer', 'user.thumbnails', 'user.workschedules'])->get();
                 }
-            } else {
+            } //else {
+
                 // Handle the case where categories is not provided
-                $merchants = Merchant::with(['user', 'reviews.user.customer', 'user.thumbnails', 'user.workschedules'])->get();
+                //$merchants = Merchant::with(['user', 'reviews.user.customer', 'user.thumbnails', 'user.workschedules'])->get();
+            //}
+
+            if (!$merchants) {
+                return response()->json([
+                    'status' => false,
+                    'merchants' => null,
+                ], 400);
             }
 
             return response()->json([
