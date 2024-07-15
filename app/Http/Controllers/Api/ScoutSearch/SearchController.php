@@ -84,6 +84,14 @@ class SearchController extends Controller
                     $query->whereIn('id', Merchant::search($location)->get()->pluck('id'));
 
                     $merchants = $query->get();
+
+                    if (!$merchants) {
+                        return response()->json([
+                            'status' => false,
+                            'merchants' => null,
+                        ], 400);
+                    }
+                    
                 } else {
 
                     // Handle the case where categories is an empty array
